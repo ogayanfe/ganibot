@@ -22,10 +22,14 @@ interface IProps {
 }
 
 function ThemeContextProvider({ children }: IProps) {
-  const [darkTheme, setDarkTheme] = useState(() => isDarkTheme());
+  const [darkTheme, setDarkTheme] = useState(false);
 
   useEffect(() => {
-    const html = document.body;
+    setDarkTheme(() => isDarkTheme());
+  }, []);
+  
+  useEffect(() => {
+    const html = document.documentElement;
     setTheme(darkTheme);
 
     if (darkTheme) {

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import ThemeContextProvider from "@/providers/theme-context";
-import { SessionProvider } from "next-auth/react";
-import "./globals.css";
 import GaniSessionProvider from "@/providers/session";
+import Header from "@/components/header";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,11 +27,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <GaniSessionProvider>
-          <ThemeContextProvider>{children}</ThemeContextProvider>
-        </GaniSessionProvider>
-      </body>
+      <GaniSessionProvider>
+        <ThemeContextProvider>
+          <body
+            className={`${geistMono.style} ${geistSans.style} w-screen h-screen antialiased flex flex-col bg-white dark:bg-[#090909] dark:text-gray-100`}
+          >
+            <Header />
+            <main className="flex-grow overflow-y-auto">{children}</main>
+          </body>
+        </ThemeContextProvider>
+      </GaniSessionProvider>
     </html>
   );
 }

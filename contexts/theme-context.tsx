@@ -1,4 +1,4 @@
-"use ";
+"use client";
 
 import { MdDarkMode, MdOutlineLightMode } from "react-icons/md";
 import IconButton from "@/components/utils/icon-button";
