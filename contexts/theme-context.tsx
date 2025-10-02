@@ -1,7 +1,7 @@
 "use client";
 
 import { MdDarkMode, MdOutlineLightMode } from "react-icons/md";
-import IconButton from "@/components/utils/icon-button";
+import IconButton from "@/components/button/icon-button";
 import useThemeContext from "@/hooks/use-theme-context";
 
 export default function ToggleTheme() {

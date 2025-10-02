@@ -1,3 +1,5 @@
+"use client";
+
 import { DEFAULT_SIGNIN_URL } from "@/utils/constants";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
