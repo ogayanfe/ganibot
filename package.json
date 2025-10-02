@@ -8,6 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@splinetool/react-spline": "^4.1.0",
+    "@splinetool/runtime": "^1.10.73",
     "next": "15.5.4",
     "next-auth": "^4.24.11",
     "react": "19.1.0",
