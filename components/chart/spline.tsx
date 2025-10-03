@@ -17,7 +17,7 @@ export default function SplineChart({
       <div className={`${width} ${height}`}>
         <Spline
           scene={scene}
-          style={{ width: "100%", height: "100%", background: "transparent" }}
+          style={{ width: "100%", height: "100%" }}
         />
       </div>
     </main>

@@ -30,7 +30,7 @@ export default function Page() {
             />
           </ComponentVisiblity>
           <ComponentVisiblity show={authenticated}>
-            <HeaderButton title="Start Conversation" className={`${buttonClassNames} w-[250px] sm:w-[270px]`} icon={<LuAudioLines />} />
+            <HeaderButton title="Start Conversation" className={`${buttonClassNames} w-[250px] sm:w-[270px]`} icon={<LuAudioLines />} href="/new-chat" />
           </ComponentVisiblity>
           <HeaderButton
             title="About Authors"
