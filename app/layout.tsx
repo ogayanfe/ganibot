@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import ThemeContextProvider from "@/providers/theme-context";
 import GaniSessionProvider from "@/providers/session";
 import "./globals.css";
+import AiContextProvider from "@/providers/ai-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,9 +29,11 @@ export default function RootLayout({
     <html lang="en">
       <GaniSessionProvider>
         <ThemeContextProvider>
-          <body className={`${geistMono.style} ${geistSans.style} w-screen h-screen antialiased bg-white dark:bg-[#090909] dark:text-gray-100`}>
-            {children}
-          </body>
+          <AiContextProvider>
+            <body className={`${geistMono.style} ${geistSans.style} w-screen h-screen antialiased bg-white dark:bg-[#090909] dark:text-gray-100`}>
+              {children}
+            </body>
+          </AiContextProvider>
         </ThemeContextProvider>
       </GaniSessionProvider>
     </html>

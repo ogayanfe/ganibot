@@ -1,6 +1,6 @@
 "use client";
 
-import ToggleTheme from "@/contexts/theme-context";
+import ToggleTheme from "@/utils/toggle-theme";
 import IconLink from "./utils/icon-link";
 import { FaGithub } from "react-icons/fa6";
 import { PROJECT_GITHUB_URL } from "@/utils/constants";
