@@ -1,18 +1,26 @@
+import cn from "@/utils/cn";
 import React, { DetailedHTMLProps, ButtonHTMLAttributes } from "react";
+import ComponentVisiblity from "../utils/component-visibility";
 
 interface IProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   title: string;
   icon?: React.ReactNode;
+  iconPosition?: "start" | "end";
 }
 
-export default function HeaderButton({ title, icon, ...props }: IProps) {
+export default function HeaderButton({ title, icon, className, iconPosition = "start", ...props }: IProps) {
   return (
     <button
+      className={cn(`p-2 px-3 flex items-center text-blue justify-center font-semibold gap-3 rounded-md sm:shadow-md uppercase`, className)}
       {...props}
-      className="p-2 px-2.5 sm:text-blue-50 flex items-center text-blue justify-center gap-3 sm:bg-blue-500 rounded-md sm:shadow-md uppercase"
     >
-      <span className="max-sm:text-3xl">{icon}</span>
-      <span className="max-sm:hidden">{title}</span>
+      <ComponentVisiblity show={iconPosition === "start"}>
+        <span className="">{icon}</span>
+      </ComponentVisiblity>
+      <span>{title}</span>
+      <ComponentVisiblity show={iconPosition === "end"}>
+        <span className="">{icon}</span>
+      </ComponentVisiblity>
     </button>
   );
 }

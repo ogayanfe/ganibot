@@ -32,7 +32,7 @@ export default function Avatar() {
   return (
     <div className={baseClasses} title={titleText}>
       {avatarImage ? (
-        <Image src={avatarImage} width={45} height={45} alt={user.name || "User profile"} className="w-full h-full object-cover" />
+        <Image src={avatarImage} width={42} height={42} alt={user.name || "User profile"} className="w-full h-full object-cover" />
       ) : (
         // 2. Display the user's initial as a fallback
         <div className="w-full h-full flex items-center justify-center bg-indigo-600 text-white text-lg font-semibold">
