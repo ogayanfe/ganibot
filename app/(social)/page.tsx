@@ -40,6 +40,7 @@ export default function Page() {
             title="About Authors"
             className={`${buttonClassNames} !bg-blue-500 w-[250px] sm:w-[270px]`}
             icon={<BsInfoCircle />}
+            href="/about"
             iconPosition="end"
           />
         </div>
