@@ -1,6 +1,5 @@
 "use client";
 import HeaderButton from "@/components/button/header-button";
-import SplineChart from "@/components/chart/spline";
 import Footer from "@/components/footer";
 import ComponentVisiblity from "@/components/utils/component-visibility";
 import useAuthenticatedSession from "@/hooks/utils/use-authenticated";
@@ -30,7 +29,12 @@ export default function Page() {
             />
           </ComponentVisiblity>
           <ComponentVisiblity show={authenticated}>
-            <HeaderButton title="Start Conversation" className={`${buttonClassNames} w-[250px] sm:w-[270px]`} icon={<LuAudioLines />} href="/new-chat" />
+            <HeaderButton
+              title="Start Conversation"
+              className={`${buttonClassNames} w-[250px] sm:w-[270px]`}
+              icon={<LuAudioLines />}
+              href="/new-chat"
+            />
           </ComponentVisiblity>
           <HeaderButton
             title="About Authors"

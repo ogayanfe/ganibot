@@ -8,32 +8,19 @@ import { signIn, signOut } from "next-auth/react";
 import useAuthenticatedSession from "@/hooks/utils/use-authenticated";
 import ComponentVisiblity from "./utils/component-visibility";
 import { CiLogin, CiLogout } from "react-icons/ci";
-import { Pixelify_Sans } from "next/font/google";
 import { MdOutlinePanoramaPhotosphereSelect } from "react-icons/md";
 import HeaderButton from "./button/header-button";
 import Avatar from "./avatar";
-import Link from "next/link";
 import IconButton from "./button/icon-button";
 import { FiLogIn, FiLogOut } from "react-icons/fi";
-
-const pixelify = Pixelify_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"], // pick weights you need
-});
+import HeaderTitle from "./header-title";
 
 export default function Header() {
   const authenticated = useAuthenticatedSession();
 
   return (
     <header className={`flex w-full items-center justify-between p-8 px-4 md:px-12`}>
-      <Link href={"/"}>
-        <h1
-          className={`text-slate-700 dark:text-slate-300 font-bold uppercase text-2xl sm:text-4xl flex items-center justify-center gap-3 ${pixelify.className}`}
-        >
-          {<MdOutlinePanoramaPhotosphereSelect />}
-          Gani
-        </h1>
-      </Link>
+      <HeaderTitle />
       <div className="flex gap-3 sm:gap-6 items-center justify-between">
         <ComponentVisiblity show={!authenticated}>
           <HeaderButton

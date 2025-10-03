@@ -1,23 +1,15 @@
 import cn from "@/utils/cn";
-import React, { DetailedHTMLProps, ButtonHTMLAttributes } from "react";
 import ComponentVisiblity from "../utils/component-visibility";
 import Link from "next/link";
 
-interface IProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+interface IProps extends React.ComponentProps<typeof Link> {
   title: string;
   icon?: React.ReactNode;
   iconPosition?: "start" | "end";
   href?: string | ""; // use href instead of ref
 }
 
-export default function HeaderButton({
-  title,
-  icon,
-  className,
-  iconPosition = "start",
-  href,
-  ...props
-}: IProps) {
+export default function HeaderButton({ title, icon, className, iconPosition = "start", href, ...props }: IProps) {
   return (
     <Link
       href={href || "#"}
