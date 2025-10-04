@@ -61,9 +61,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="min-h-screen pt-10">
-        <SplineChart scene={"/scene.splinecode"} height="h-[410px]" />
-
+      <div className="min-h-screen py-16">
         <div className="w-full max-w-4xl mx-auto p-8">
           <div className="flex justify-between items-center mb-6">
             <h1 className="font-bold text-[.7rem] md:text-2xl dark:text-gray-300 text-gray-700 font-mono">{content[language].title}</h1>
