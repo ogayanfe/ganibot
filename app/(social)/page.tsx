@@ -37,7 +37,7 @@ export default function Page() {
             />
           </ComponentVisiblity>
           <HeaderButton
-            title="About Authors"
+            title="About Project"
             className={`${buttonClassNames} !bg-blue-500 w-[250px] sm:w-[270px]`}
             icon={<BsInfoCircle />}
             href="/about"

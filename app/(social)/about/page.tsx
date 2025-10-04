@@ -1,8 +1,9 @@
-'use client'
+"use client";
 import Footer from "@/components/footer";
 import { useEffect, useState } from "react";
 import { MdGTranslate } from "react-icons/md";
 import { GiNigeria } from "react-icons/gi";
+import SplineChart from "@/components/chart/spline";
 
 export default function Page() {
   const [language, setLanguage] = useState<"en" | "ha">("en");
@@ -17,7 +18,7 @@ export default function Page() {
 
     return () => clearInterval(scrollInterval);
   }, []);
-  
+
   const content = {
     en: {
       title: "About Project – Gani",
@@ -60,22 +61,26 @@ export default function Page() {
 
   return (
     <>
-      <div className="min-h-screen">
+      <div className="min-h-screen pt-10">
+        <SplineChart scene={"/scene.splinecode"} height="h-[410px]" />
+
         <div className="w-full max-w-4xl mx-auto p-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="font-bold text-[.7rem] md:text-2xl dark:text-gray-300 text-gray-700 font-mono">{content[language].title}</h1>
-        <button type="button" title="Change Language"
-          onClick={() => setLanguage(language === "en" ? "ha" : "en")}
-          className="flex items-center gap-2 bg-blue-500 dark:bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-mono"
-        >
-          {language === "en" ? <GiNigeria /> : <MdGTranslate />}
-          {language === "en" ? "Hausa" : "English"}
-        </button>
-      </div>
-      <p className="text-gray-700 whitespace-pre-line leading-relaxed text-[.7rem] md:text-2xl dark:text-gray-300 font-mono">
-        {content[language].description}
-      </p>
-    </div>
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="font-bold text-[.7rem] md:text-2xl dark:text-gray-300 text-gray-700 font-mono">{content[language].title}</h1>
+            <button
+              type="button"
+              title="Change Language"
+              onClick={() => setLanguage(language === "en" ? "ha" : "en")}
+              className="flex items-center gap-2 bg-blue-500 dark:bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-mono"
+            >
+              {language === "en" ? <GiNigeria /> : <MdGTranslate />}
+              {language === "en" ? "Hausa" : "English"}
+            </button>
+          </div>
+          <p className="text-gray-700 whitespace-pre-line leading-relaxed text-[.7rem] md:text-2xl dark:text-gray-300 font-mono">
+            {content[language].description}
+          </p>
+        </div>
       </div>
       <Footer />
     </>
