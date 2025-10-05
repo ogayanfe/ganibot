@@ -4,12 +4,13 @@ import SplineChart from "@/components/chart/spline";
 import ChatFooter from "@/components/chat/footer";
 import ChatHeader from "@/components/chat/header";
 import Transcript from "@/components/chat/transcript";
+import Video from "@/components/chat/video";
 import ComponentVisiblity from "@/components/utils/component-visibility";
 import useAIContext from "@/hooks/use-ai-context";
 import React from "react";
 
 export default function NewChat() {
-  const { captionOn } = useAIContext();
+  const { captionOn, videoOn } = useAIContext();
   return (
     <div className="h-screen w-screen text-white flex items-center justify-center font-sans transition-all overflow-y-auto">
       <ChatHeader />
@@ -21,6 +22,11 @@ export default function NewChat() {
         <ComponentVisiblity show={captionOn}>
           <Transcript />
         </ComponentVisiblity>
+        <div className="">
+          <ComponentVisiblity show={videoOn}>
+            <Video />
+          </ComponentVisiblity>
+        </div>
       </main>
 
       <ChatFooter />

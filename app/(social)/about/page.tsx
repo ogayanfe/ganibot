@@ -3,7 +3,6 @@ import Footer from "@/components/footer";
 import { useEffect, useState } from "react";
 import { MdGTranslate } from "react-icons/md";
 import { GiNigeria } from "react-icons/gi";
-import SplineChart from "@/components/chart/spline";
 
 export default function Page() {
   const [language, setLanguage] = useState<"en" | "ha">("en");
