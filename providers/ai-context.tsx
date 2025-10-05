@@ -6,6 +6,8 @@ interface AiContextValues {
   audioOn: boolean;
   videoOn: boolean;
   captionOn: boolean;
+  transcripts: string;
+  setTranscripts: (text: string) => unknown;
   setAudioOn: (on: boolean) => unknown;
   setVideoOn: (on: boolean) => unknown;
   setCaptionOn: (on: boolean) => unknown;
@@ -15,9 +17,11 @@ export const aiContext = createContext<AiContextValues>({
   audioOn: false,
   videoOn: false,
   captionOn: false,
+  transcripts: "",
   setAudioOn: console.log,
   setVideoOn: console.log,
   setCaptionOn: console.log,
+  setTranscripts: console.log,
 });
 
 interface IProps {
@@ -28,14 +32,17 @@ export default function AiContextProvider({ children }: IProps) {
   const [audioOn, setAudioOn] = useState(false);
   const [videoOn, setVideoOn] = useState(false);
   const [captionOn, setCaptionOn] = useState(false);
+  const [transcripts, setTranscripts] = useState("");
 
   const value: AiContextValues = {
     audioOn,
     videoOn,
     captionOn,
+    transcripts,
     setAudioOn,
     setVideoOn,
     setCaptionOn,
+    setTranscripts,
   };
 
   return <aiContext.Provider value={value}>{children}</aiContext.Provider>;
