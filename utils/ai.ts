@@ -17,7 +17,7 @@ export default async function generateAIResponse({ base64Audio }: AIResponsePayl
   ];
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-lite",
+    model: "gemini-2.5-flash",
     contents: contents,
     config: {
       temperature: 0.1,
