@@ -4,6 +4,7 @@ import ThemeContextProvider from "@/providers/theme-context";
 import GaniSessionProvider from "@/providers/session";
 import "./globals.css";
 import AiContextProvider from "@/providers/ai-context";
+import QueryProvider from "@/providers/query";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,13 +29,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <GaniSessionProvider>
-        <ThemeContextProvider>
-          <AiContextProvider>
-            <body className={`${geistMono.style} ${geistSans.style} w-screen h-screen antialiased bg-white dark:bg-[#090909] dark:text-gray-100`}>
-              {children}
-            </body>
-          </AiContextProvider>
-        </ThemeContextProvider>
+        <QueryProvider>
+          <ThemeContextProvider>
+            <AiContextProvider>
+              <body className={`${geistMono.style} ${geistSans.style} w-screen h-screen antialiased bg-white dark:bg-[#090909] dark:text-gray-100`}>
+                {children}
+              </body>
+            </AiContextProvider>
+          </ThemeContextProvider>
+        </QueryProvider>
       </GaniSessionProvider>
     </html>
   );
