@@ -1,11 +1,8 @@
 "use client";
 
 import { FaClosedCaptioning } from "react-icons/fa6";
-import { LuAudioLines } from "react-icons/lu";
 import { VscSettings } from "react-icons/vsc";
 import IconButton from "../button/icon-button";
-import IconLink from "../utils/icon-link";
-import { IoClose } from "react-icons/io5";
 import Avatar from "../avatar";
 import { LuCaptionsOff } from "react-icons/lu";
 import ToggleTheme from "@/utils/toggle-theme";
@@ -21,15 +18,19 @@ export default function ChatHeader() {
         <IoClose className="text-4xl" />
       </IconLink> */}
       <div className="flex gap-6">
-        <IconButton label="" type="button" title="Toggle Caption" className="hover:text-white transition" onClick={() => setCaptionOn(!captionOn)}>
-          {captionOn ? <LuCaptionsOff size={25} /> : <FaClosedCaptioning size={25} />}
+        <IconButton 
+        label="toggle caption" 
+        type="button" title="Toggle Caption" 
+        className="hover:text-white transition" 
+        onClick={() => setCaptionOn(!captionOn)}>
+          {captionOn ? <LuCaptionsOff size={22} /> : <FaClosedCaptioning size={22} />}
         </IconButton>
         {/* <IconButton label="" type="button" title="Enable Caption" className="hover:text-white transition">
           <LuAudioLines size={25} />
-        </IconButton>
-        <IconButton label="" type="button" title="Enable Caption" className="hover:text-white transition">
+        </IconButton>*/}
+        <IconButton label="" type="button" title="Settings" className="hover:text-white transition">
           <VscSettings size={25} />
-        </IconButton> */}
+        </IconButton>
         <ToggleTheme />
         <Avatar />
       </div>
