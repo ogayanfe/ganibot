@@ -20,23 +20,12 @@ export default function Page() {
         <p className="text-center italic">Gani — Smarter Conversations in Hausa.</p>
 
         <div className="text-xl flex items-center max-sm:flex-col justify-center gap-3 px-2 mt-2">
-          
           <ComponentVisiblity show={!authenticated}>
-            <HeaderButton
-              title="signin"
-              className={`${buttonClassNames} w-[250px] sm:w-[270px]`}
-              icon={<CiLogin />}
-              onClick={() => signIn()}
-            />
+            <HeaderButton title="signin" className={`${buttonClassNames} w-[250px] sm:w-[270px]`} icon={<CiLogin />} onClick={() => signIn()} />
           </ComponentVisiblity>
 
           <ComponentVisiblity show={authenticated}>
-            <HeaderButton
-              title="Start Conversation"
-              className={`${buttonClassNames} w-[250px] sm:w-[270px]`}
-              icon={<LuAudioLines />}
-              href="/new-chat"
-            />
+            <HeaderButton title="Start Conversation" className={`${buttonClassNames} w-[250px] sm:w-[270px]`} icon={<LuAudioLines />} href="/chat" />
           </ComponentVisiblity>
 
           <HeaderButton
