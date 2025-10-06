@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { blobToBase64 } from "@/utils/client";
 
 export default function NewChat() {
-  const { captionOn, audioOn, setTranscripts, videoOn } = useAIContext();
+  const { captionOn, audioOn, videoOn, setTranscripts } = useAIContext();
   const { startRecording, stopRecording, recording, getChuncks } = useRecorder();
   const { mutateAsync, isPending } = useAIResponseMutation();
 
@@ -49,7 +49,7 @@ export default function NewChat() {
         <ComponentVisiblity show={captionOn}>
           <Transcript loading={isPending} />
         </ComponentVisiblity>
-        <div className="">
+        <div className={`${captionOn}`}>
           <ComponentVisiblity show={videoOn}>
             <Video />
           </ComponentVisiblity>

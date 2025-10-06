@@ -3,6 +3,8 @@ import Footer from "@/components/footer";
 import { useEffect, useState } from "react";
 import { MdGTranslate } from "react-icons/md";
 import { GiNigeria } from "react-icons/gi";
+import { FaBackward } from "react-icons/fa6";
+import HeaderButton from "@/components/button/header-button";
 
 export default function Page() {
   const [language, setLanguage] = useState<"en" | "ha">("en");
@@ -13,7 +15,7 @@ export default function Page() {
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         clearInterval(scrollInterval); // stop at the bottom
       }
-    }, 30); // adjust speed (lower is slower)
+    }, 3000); // adjust speed (lower is slower)
 
     return () => clearInterval(scrollInterval);
   }, []);
@@ -63,6 +65,7 @@ export default function Page() {
       <div className="min-h-screen py-16">
         <div className="w-full max-w-4xl mx-auto p-8">
           <div className="flex justify-between items-center mb-6">
+            <HeaderButton title="Home" icon={<FaBackward size={22}/>} href="/"></HeaderButton>
             <h1 className="font-bold text-[.7rem] md:text-2xl dark:text-gray-300 text-gray-700 font-mono">{content[language].title}</h1>
             <button
               type="button"

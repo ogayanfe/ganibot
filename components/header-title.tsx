@@ -11,7 +11,7 @@ export default function HeaderTitle() {
   return (
     <Link href={"/"}>
       <h1
-        className={`text-slate-700 dark:text-slate-300 font-bold uppercase text-2xl sm:text-4xl flex items-center justify-center gap-3 ${pixelify.className}`}
+        className={`text-slate-800 dark:text-slate-300 font-bold uppercase text-2xl sm:text-4xl flex items-center justify-center gap-3 ${pixelify.className}`}
       >
         {<MdOutlinePanoramaPhotosphereSelect />}
         Gani

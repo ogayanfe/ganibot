@@ -8,8 +8,8 @@ interface IconButtonPropType extends DetailedHTMLProps<ButtonHTMLAttributes<HTML
 export default function IconButton(props: IconButtonPropType) {
   const { label, children } = props;
   return (
-    <button {...props}>
-      <span className="w-0 overflow-hidden fixed -left-[100000rem]">{label}</span>
+    <button {...props} className="cursor-pointer">
+      <span className="w-0 overflow-hidden fixed -left-[1000000rem]">{label}</span>
       <span className="shadow-lg">{children}</span>
     </button>
   );

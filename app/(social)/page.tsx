@@ -20,6 +20,7 @@ export default function Page() {
         <p className="text-center italic">Gani — Smarter Conversations in Hausa.</p>
 
         <div className="text-xl flex items-center max-sm:flex-col justify-center gap-3 px-2 mt-2">
+          
           <ComponentVisiblity show={!authenticated}>
             <HeaderButton
               title="Sign In To Gani"
@@ -28,6 +29,7 @@ export default function Page() {
               onClick={() => signIn()}
             />
           </ComponentVisiblity>
+
           <ComponentVisiblity show={authenticated}>
             <HeaderButton
               title="Start Conversation"
@@ -36,6 +38,7 @@ export default function Page() {
               href="/new-chat"
             />
           </ComponentVisiblity>
+
           <HeaderButton
             title="About Project"
             className={`${buttonClassNames} !bg-blue-500 w-[250px] sm:w-[270px]`}

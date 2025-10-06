@@ -9,8 +9,6 @@ const { videoOn } = useAIContext()
         <h2 className="text-xl font-semibold text-indigo-400">Live Recording</h2>
         {videoOn ? <LiveStream /> : "show video"}
       
-        <a id="downloadLink">Download Video</a>
-        <div className="bg-gray-800 p-3 rounded-lg font-mono text-center text-yellow-300 text-sm break-words"></div>
       </div>
     </div>
   );

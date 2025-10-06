@@ -8,7 +8,6 @@ import { signIn, signOut } from "next-auth/react";
 import useAuthenticatedSession from "@/hooks/utils/use-authenticated";
 import ComponentVisiblity from "./utils/component-visibility";
 import { CiLogin, CiLogout } from "react-icons/ci";
-import { MdOutlinePanoramaPhotosphereSelect } from "react-icons/md";
 import HeaderButton from "./button/header-button";
 import Avatar from "./avatar";
 import IconButton from "./button/icon-button";

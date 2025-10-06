@@ -16,8 +16,11 @@ export default function Transcript({ loading }: IProps) {
         <h2 className="text-xl font-semibold text-indigo-400">Transcription</h2>
         <p className="text-[.7rem] md:text-2xl dark:text-gray-300 text-gray-700 font-mono">{transcripts}</p>
         <ComponentVisiblity show={loading}>
-          <div className="bg-gray-800 p-3 rounded-lg font-mono text-center text-yellow-300 text-sm break-words"></div>
-          <div className="bg-gray-800 p-3 rounded-lg font-mono text-center text-yellow-300 text-sm break-words"></div>
+          <div className="bg-gray-800 p-3 w-[90%] rounded-lg font-mono text-center text-yellow-300 text-sm break-words"></div>
+          <div className="bg-gray-800 p-3 w-[70%]rounded-lg font-mono text-center text-yellow-300 text-sm break-words"></div>
+          <div className="bg-gray-800 p-3 w-[50%]rounded-lg font-mono text-center text-yellow-300 text-sm break-words"></div>
+          <div className="bg-gray-800 p-3 w-[30%]rounded-lg font-mono text-center text-yellow-300 text-sm break-words"></div>
+
         </ComponentVisiblity>
       </div>
     </div>

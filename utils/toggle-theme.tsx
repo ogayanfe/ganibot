@@ -5,7 +5,7 @@ import IconButton from "@/components/button/icon-button";
 import useThemeContext from "@/hooks/use-theme-context";
 
 export default function ToggleTheme() {
-  const { darkTheme, toggleTheme } = useThemeContext();
+  const { darkTheme, toggleTheme} = useThemeContext();
   return (
     <IconButton label="toggle dark theme" onClick={toggleTheme}>
       {darkTheme ? (

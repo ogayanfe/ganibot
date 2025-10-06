@@ -5,8 +5,9 @@ import Link from "next/link";
 interface IProps extends React.ComponentProps<typeof Link> {
   title: string;
   icon?: React.ReactNode;
+  className?: string;
   iconPosition?: "start" | "end";
-  href?: string | ""; // use href instead of ref
+  href?: string;
 }
 
 export default function HeaderButton({ title, icon, className, iconPosition = "start", href, ...props }: IProps) {
