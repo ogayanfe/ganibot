@@ -2,7 +2,6 @@
 
 import useAIContext from "@/hooks/use-ai-context";
 import React, { useEffect, useRef, useState } from "react";
-import { FiCamera, FiStopCircle, FiDownload } from "react-icons/fi";
 
 export default function LiveStream() {
   const videoRef = useRef<HTMLVideoElement>(null);
