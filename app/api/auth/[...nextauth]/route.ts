@@ -1,8 +1,9 @@
-import NextAuth from "next-auth";
+// src/app/api/auth/[...nextauth]/route.ts
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.AUTH_GITHUB_ID as string,
@@ -22,17 +23,27 @@ const handler = NextAuth({
     }),
   ],
 
+  pages: {
+    signIn: "/signin",
+  },
+
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === "google") {
         const googleProfile = profile as any;
-        return googleProfile?.email_verified && googleProfile?.email?.endsWith("@gmail.com");
+        return (
+          googleProfile?.email_verified &&
+          googleProfile?.email?.endsWith("@gmail.com")
+        );
       }
       return true;
     },
   },
 
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+// ✅ Export the handler for Next.js Route Handlers
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
