@@ -18,19 +18,27 @@ export default function NewChat() {
   const { mutateAsync, isPending } = useAIResponseMutation();
 
   async function generateAIResponse(chunks: Blob[]) {
-    const base64Audio = await blobToBase64(new Blob(chunks, { type: "audio/mp3" }));
-    const response = await mutateAsync({ base64Audio });
-    setTranscripts(response.transcript ?? "");
-    if (response.audioBase64) {
-      const audio = new Audio(`data:audio/wav;base64,${response.audioBase64}`);
-      audio.play();
+    try {
+      const base64Audio = await blobToBase64(new Blob(chunks, { type: "audio/mp3" }));
+      const response = await mutateAsync({ base64Audio });
+      setTranscripts(response.transcript ?? "");
+      if (response.audioBase64) {
+        const audio = new Audio(`data:audio/wav;base64,${response.audioBase64}`);
+        audio.addEventListener("ended", () => {
+          if (!recording && audioOn) startRecording();
+        });
+        audio.play();
+      }
+    } catch (error) {
+      if (!recording && audioOn) startRecording();
+      alert("Error getting response");
     }
   }
 
   useEffect(() => {
-    console.log(recording);
     const chunks = getChuncks();
     if (recording || chunks.length == 0) return;
+    console.log(recording, chunks);
     generateAIResponse(chunks);
   }, [recording]);
 

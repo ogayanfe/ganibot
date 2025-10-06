@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function useRecorder() {
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
@@ -33,48 +33,52 @@ export default function useRecorder() {
       analyserRef.current = audioContextRef.current.createAnalyser();
       sourceRef.current = audioContextRef.current.createMediaStreamSource(stream);
       sourceRef.current.connect(analyserRef.current);
-
-      const dataArray = new Uint8Array(analyserRef.current.fftSize);
-
-      function checkSilence() {
-        return;
-        analyserRef.current?.getByteFrequencyData(dataArray);
-        const volume = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
-
-        // adjust threshold depending on noise
-        if (volume < 5) {
-          if (!silenceTimerRef.current) {
-            silenceTimerRef.current = setTimeout(() => {
-              console.log("Silence detected for 2s, stopping recorder...");
-              stopRecording().then(() => {
-                if (onSilence) onSilence();
-              });
-            }, 2000); // 2s silence
-          }
-        } else {
-          if (silenceTimerRef.current) {
-            clearTimeout(silenceTimerRef.current);
-            silenceTimerRef.current = null;
-          }
-        }
-
-        if (recorder.state === "recording") {
-          requestAnimationFrame(checkSilence);
-        }
-      }
-
-      checkSilence();
     } catch (error) {
       console.log("Error accessing media devices", error);
     }
   }
+  useEffect(() => {
+    if (!(analyserRef.current && recording)) return;
 
-  async function stopRecording() {
-    if (!recorder) return null;
+    const dataArray = new Uint8Array(analyserRef.current.fftSize);
+
+    function checkSilence() {
+      analyserRef.current?.getByteFrequencyData(dataArray);
+      const volume = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+      console.log(volume);
+
+      // adjust threshold depending on noise
+      if (volume < 5) {
+        if (!silenceTimerRef.current) {
+          silenceTimerRef.current = setTimeout(() => {
+            console.log("Silence detected for 2s, stopping recorder...");
+            stopRecording();
+          }, 2000); // 2s silence
+        }
+      } else {
+        if (silenceTimerRef.current) {
+          clearTimeout(silenceTimerRef.current);
+          silenceTimerRef.current = null;
+        }
+      }
+
+      if (recorder && recorder.state === "recording" && recording) {
+        requestAnimationFrame(checkSilence);
+      }
+    }
+
+    checkSilence();
+  }, [recording]);
+
+  async function stopRecording(_recorder?: typeof recorder) {
+    console.log(recorder);
+    if (!_recorder) _recorder = recorder;
+
+    if (!_recorder) return null;
 
     return new Promise<Blob[]>((resolve) => {
-      recorder.onstop = () => {
-        recorder.stream.getTracks().forEach((track) => track.stop());
+      _recorder.onstop = () => {
+        _recorder.stream.getTracks().forEach((track) => track.stop());
         setRecorder(null);
         setRecording(false);
 
@@ -93,7 +97,7 @@ export default function useRecorder() {
         resolve(chunks.current);
       };
 
-      recorder.stop();
+      _recorder.stop();
     });
   }
 
