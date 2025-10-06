@@ -15,7 +15,7 @@ import useAIContext from "@/hooks/use-ai-context";
 export default function ChatHeader() {
   const { captionOn, setCaptionOn } = useAIContext();
   return (
-    <header className="flex justify-between space-x-6 p-8 px-10 text-gray-400 top-0 fixed w-screen">
+    <header className="flex justify-between space-x-6 p-8 px-10 text-gray-400 top-0 fixed w-screen z-10 dark:bg-[#090909]">
       <HeaderTitle />
       {/* <IconLink href="/" label="Close">
         <IoClose className="text-4xl" />
