@@ -23,7 +23,7 @@ export default function Page() {
           
           <ComponentVisiblity show={!authenticated}>
             <HeaderButton
-              title="Sign In To Gani"
+              title="signin"
               className={`${buttonClassNames} w-[250px] sm:w-[270px]`}
               icon={<CiLogin />}
               onClick={() => signIn()}

@@ -32,7 +32,7 @@ export default function RootLayout({
         <QueryProvider>
           <ThemeContextProvider>
             <AiContextProvider>
-              <body className={`${geistMono.style} ${geistSans.style} w-screen h-screen antialiased bg-white dark:bg-[#090909] dark:text-gray-100`}>
+              <body className={`${geistMono.style} ${geistSans.style} w-screen h-screen antialiased bg-[#F9FAFB] text-gray-900 dark:bg-[#0B0F19] dark:text-gray-200`}>
                 {children}
               </body>
             </AiContextProvider>
