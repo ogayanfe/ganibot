@@ -11,7 +11,7 @@ import IconLink from "../utils/icon-link";
 export default function ChatFooter() {
   const { audioOn, videoOn, setAudioOn, setVideoOn } = useAIContext();
   return (
-    <footer className="flex justify-center items-center gap-10 py-6 border-gray-800 h-[200px] fixed bottom-0 w-screen text-gray-900 dark:text-gray-50">
+    <footer className="flex justify-center items-center gap-10 py-6 border-gray-800 h-[200px] fixed bottom-0 w-screen text-gray-900 dark:text-gray-50 bg-inherit dark:bg-[#0b0f19] object-cover">
       <IconButton label="video" onClick={() => setVideoOn(!videoOn)}>
         {videoOn ? <CiVideoOn size={35} /> : <CiVideoOff size={35} />}
       </IconButton>

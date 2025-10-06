@@ -18,9 +18,6 @@ export default function Transcript({ loading }: IProps) {
         <ComponentVisiblity show={loading}>
           <div className="bg-gray-800 p-3 w-[90%] rounded-lg font-mono text-center text-yellow-300 text-sm break-words animate-pulse"></div>
           <div className="bg-gray-800 p-3 w-[70%] rounded-lg font-mono text-center text-yellow-300 text-sm break-words animate-pulse"></div>
-          <div className="bg-gray-800 p-3 w-[60%] rounded-lg font-mono text-center text-yellow-300 text-sm break-words animate-pulse"></div>
-          <div className="bg-gray-800 p-3 w-[80%] rounded-lg font-mono text-center text-yellow-300 text-sm break-words animate-pulse"></div>
-          <div className="bg-gray-800 p-3 w-[40%] rounded-lg font-mono text-center text-yellow-300 text-sm break-words animate-pulse"></div>
         </ComponentVisiblity>
       </div>
     </div>
