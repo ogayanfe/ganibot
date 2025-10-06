@@ -39,11 +39,11 @@ export default function NewChat() {
   }, [audioOn]);
 
   return (
-    <div className="h-screen w-screen text-white flex items-center justify-center font-sans transition-all overflow-y-auto">
+    <div className="h-screen w-screen max-md:min-h-[900px] text-white flex items-center justify-center font-sans transition-all overflow-y-auto">
       <ChatHeader />
       <main className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-10 px-6 flex-grow">
-        <div className="w-[400px]">
-          <SplineChart scene={"/scene.splinecode"} />
+        <div className="w-[400px] max-md:h-[200px]">
+          <SplineChart scene={"/scene.splinecode"} className="max-md:scale-50" />
         </div>
         <ComponentVisiblity show={captionOn}>
           <Transcript loading={isPending} />

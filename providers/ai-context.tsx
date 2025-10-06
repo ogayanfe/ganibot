@@ -32,7 +32,7 @@ export default function AiContextProvider({ children }: IProps) {
   const [audioOn, setAudioOn] = useState(false);
   const [videoOn, setVideoOn] = useState(false);
   const [captionOn, setCaptionOn] = useState(false);
-  const [transcripts, setTranscripts] = useState("");
+  const [transcripts, setTranscripts] = useState("Thr eoanoy asoudfnastdo fasoduf asdbjh iut gasydhfi agsdjfg ashdfuasd fi");
 
   const value: AiContextValues = {
     audioOn,
