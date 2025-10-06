@@ -1,24 +1,16 @@
-'use client'
+"use client";
 import Spline from "@splinetool/react-spline";
 
 type SplineChartProps = {
   scene: string;
-  width?: string;   // Tailwind width e.g. "w-full" or "w-[600px]"
-  height?: string;  // Tailwind height e.g. "h-[400px]"
+  className?: string;
 };
 
-export default function SplineChart({
-  scene,
-  width = "w-full",
-  height = "h-[500px]",
-}: SplineChartProps) {
+export default function SplineChart({ scene, className }: SplineChartProps) {
   return (
     <main className="w-full h-full flex justify-center items-center overflow-hidden">
-      <div className={`${width} ${height}`}>
-        <Spline
-          scene={scene}
-          style={{ width: "100%", height: "100%" }}
-        />
+      <div className={`w-full h-[500px] ${className}`}>
+        <Spline scene={scene} style={{ width: "100%", height: "100%" }} />
       </div>
     </main>
   );
