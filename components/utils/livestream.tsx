@@ -41,6 +41,7 @@ export default function LiveStream() {
   const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
+      mediaRecorder.stream.getTracks().forEach((track) => track.stop());
       setIsRecording(false);
     }
   };
