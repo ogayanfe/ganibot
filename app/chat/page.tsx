@@ -19,9 +19,12 @@ export default function NewChat() {
 
   async function generateAIResponse(chunks: Blob[]) {
     const base64Audio = await blobToBase64(new Blob(chunks, { type: "audio/mp3" }));
-    console.log(base64Audio);
     const response = await mutateAsync({ base64Audio });
     setTranscripts(response.transcript ?? "");
+    if (response.audioBase64) {
+      const audio = new Audio(`data:audio/wav;base64,${response.audioBase64}`);
+      audio.play();
+    }
   }
 
   useEffect(() => {
@@ -49,11 +52,11 @@ export default function NewChat() {
         <ComponentVisiblity show={captionOn}>
           <Transcript loading={isPending} />
         </ComponentVisiblity>
-        <div className={`${captionOn}`}>
-          <ComponentVisiblity show={videoOn}>
+        <ComponentVisiblity show={videoOn}>
+          <div className={`${captionOn}`}>
             <Video />
-          </ComponentVisiblity>
-        </div>
+          </div>
+        </ComponentVisiblity>
       </main>
 
       <ChatFooter />

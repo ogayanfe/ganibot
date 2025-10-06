@@ -7,8 +7,7 @@ export interface AIResponsePayload {
 }
 
 export default async function generateAudio(payload: AIResponsePayload) {
-  const { text } = await generateAIResponse(payload);
-  return {
-    transcript: text,
-  };
+  const { text, audioBase64 } = await generateAIResponse(payload);
+
+  return { transcript: text, audioBase64 };
 }
