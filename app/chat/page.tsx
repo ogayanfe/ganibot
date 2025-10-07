@@ -67,7 +67,7 @@ export default function NewChat() {
         </ComponentVisiblity>
       </main>
 
-      <ChatFooter />
+      <ChatFooter recording={recording} loadingAIResponse={isPending} />
     </div>
   );
 }
