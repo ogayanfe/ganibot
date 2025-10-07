@@ -25,7 +25,7 @@ export default function ChatHeader() {
           label="toggle caption"
           type="button"
           title="Toggle Caption"
-          className="hover:text-white transition"
+          className="hover:text-white transition text-gray-700 dark:text-white"
           onClick={() => setCaptionOn(!captionOn)}
         >
           {captionOn ? <LuCaptionsOff size={22} /> : <FaClosedCaptioning size={22} />}
@@ -35,7 +35,7 @@ export default function ChatHeader() {
           label="settings"
           type="button"
           title="Settings"
-          className="hover:text-white transition"
+          className="hover:text-white transition text-gray-700 dark:text-white"
           onClick={() => setIsSettingOpen((prev) => !prev)}
         >
           <VscSettings size={25} />
