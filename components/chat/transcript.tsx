@@ -1,22 +1,25 @@
 "use client";
 
 import useAIContext from "@/hooks/use-ai-context";
-import ComponentVisiblity from "../utils/component-visibility";
+import { cn } from "../utils/cn";
 
 interface IProps {
   loading: boolean;
 }
 
 export default function Transcript({ loading }: IProps) {
-  const { transcripts } = useAIContext();
+  const { transcripts, videoOn } = useAIContext();
 
   return (
-    <div className="rounded-2xl p-6 flex flex-col justify-between max-w-xl flex-grow">
+    <div
+      className={cn(
+        "rounded-2xl p-6 flex flex-col justify-between max-w-xl flex-grow z-20",
+        videoOn && "fixed bottom-45 !bg-gray-500 p-4 !text-white dark:text-white",
+        !videoOn && "text-gray-900 dark:text-white"
+      )}
+    >
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-indigo-400">Transcription</h2>
-        <p className="text-lg md:text-2xl dark:text-gray-300 text-gray-700 font-mono">
-          {transcripts.length > 0 ? transcripts : "Your transcriptions will show here"}
-        </p>
+        <p className="text-lg md:text-2xl font-mono">{transcripts.length > 0 ? transcripts : "Your audio transcripts will show here"}</p>
       </div>
     </div>
   );
