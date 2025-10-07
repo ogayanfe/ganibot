@@ -117,11 +117,20 @@ Open [http://localhost:3000](http://localhost:3000) to explore Gani locally.
 
 ---
 
+You need to have the follow variables in your .env file
+AUTH_GITHUB_ID = '' // for auth
+AUTH_GITHUB_SECRET = '' // for auth
+GEMINI_API_KEY= '' // for ai model
+BACKEND_HAUSA_AUDIO_SERVER_URL='http://127.0.0.1:5000/api/tts'
+AUTH_SECRET="" // in your .env.local file for auth
+AUTH_GOOGLE_ID="" // for auth
+AUTH_GOOGLE_SECRET=""
+
 ## ⚙️ **Settings Panel**
 
 The **Settings Panel** gives users control over:
 
-* 🔄 Voice Character (Ayanfe or Ayomide)
+* 🔄 Voice Character (Male or Female)
 * 🌍 Language (English or Hausa)
 * ⏱️ Voice Timer / Pause Duration
 
