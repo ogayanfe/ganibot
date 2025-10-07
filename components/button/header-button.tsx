@@ -2,12 +2,13 @@ import cn from "@/utils/cn";
 import ComponentVisiblity from "../utils/component-visibility";
 import Link from "next/link";
 
-interface IProps extends React.ComponentProps<typeof Link> {
+interface IProps {
   title: string;
   icon?: React.ReactNode;
   className?: string;
   iconPosition?: "start" | "end";
   href?: string;
+  onClick?: () => unknown;
 }
 
 export default function HeaderButton({ title, icon, className, iconPosition = "start", href, ...props }: IProps) {
