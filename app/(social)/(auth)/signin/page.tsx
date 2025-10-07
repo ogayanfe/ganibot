@@ -3,8 +3,13 @@
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { redirect } from "next/navigation";
+import useAuthenticatedSession from "@/hooks/utils/use-authenticated";
 
 export default function SignInPage() {
+  const authenticated = useAuthenticatedSession();
+  if (authenticated) return redirect("/");
+
   return (
     <main className="flex items-center justify-center min-h-screen px-8 py-4">
       <div className="w-full max-w-sm md:scale-120 shadow-sm border border-gray-200 dark:border-gray-900 rounded-2xl p-8 px-6 flex flex-col items-center overflow-hidden">
@@ -15,7 +20,7 @@ export default function SignInPage() {
             type="button"
             title="Google SignIn"
             onClick={() => signIn("google")}
-            className="flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2.5 hover:bg-gray-100 transition"
+            className="flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2.5 hover:bg-gray-100 hover:text-gray-900 transition"
           >
             <FcGoogle size={20} />
             <span>Continue with Google</span>
@@ -25,7 +30,7 @@ export default function SignInPage() {
             type="button"
             title="Github SignIn"
             onClick={() => signIn("github")}
-            className="flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2.5 hover:bg-gray-100 transition"
+            className="flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2.5 hover:text-gray-900 hover:bg-gray-100 transition"
           >
             <FaGithub size={20} />
             <span>Continue with GitHub</span>

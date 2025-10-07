@@ -1,4 +1,4 @@
-export const DEFAULT_SIGNIN_URL = "http://localhost:3000/signin";
+export const DEFAULT_SIGNIN_URL = "/signin";
 export const PROJECT_GITHUB_URL = "https://github.com/ogayanfe/ganibot";
 
 export const SYSTEM_PROMPT_HAUSA_RESPONSE = `
