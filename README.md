@@ -126,6 +126,8 @@ GEMINI_API_KEY= '' // for ai model
 BACKEND_HAUSA_AUDIO_SERVER_URL='http://127.0.0.1:5000/api/tts'
 AUTH_GOOGLE_ID="" // for auth
 AUTH_GOOGLE_SECRET="" // for auth
+NEXTAUTH_URL = "http://localhost:3000" // for auth
+NEXTAUTH_SECRET= "" // for auth
 
 // .env.local
 AUTH_SECRET="" // in your .env.local file for auth
