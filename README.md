@@ -1,36 +1,179 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# **Gani — The Voice Assistant**
 
-## Getting Started
+**Gani** is a bilingual, AI-powered voice assistant designed to create meaningful, natural interactions in both **English** and **Hausa**.
+Built with **Next.js**, **TypeScript**, and **TailwindCSS**, it delivers a minimal, modern, and responsive interface — blending technology with culture in one elegant experience.
 
-First, run the development server:
+> *Gani doesn’t just understand you — **Gani speaks your language.***
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🎥 **Demo**
+
+Experience Gani in action:
+
+> 🎬 *The demo showcases Gani’s bilingual voice interaction, responsive interface, and settings control on both desktop and mobile.*
+
+If you prefer a visual embed inside your README, use the Markdown syntax below:
+
+
+![Gani Voice Assistant Demo](/demo/demo.png)
+
+
+---
+
+## 🚀 **Overview**
+
+Gani enables seamless communication between humans and AI through **speech and text**.
+Its adaptive UI ensures a smooth experience across devices, while its dual-language system makes it more inclusive, expressive, and locally relevant.
+
+---
+
+## ✨ **Key Features**
+
+* 🎙️ **Dual Voice Characters** — Switch between *Male* and *Female* voices.
+* 🌐 **Language Flexibility** — Instantly toggle between **English** and **Hausa**.
+* ⚙️ **Smart Settings Panel** — Lightweight and adaptive (fullscreen on mobile, floating on desktop).
+* 🧠 **Conversational AI** — Speak or type your prompts naturally.
+* 📱 **Responsive by Design** — Smooth experience across all screens.
+* 💎 **Minimalist Interface** — Built with TailwindCSS for clarity, focus, and modern aesthetics.
+
+---
+
+## 🛠️ **Tech Stack**
+
+| Category                      | Tools                                                     |
+| ----------------------------- | --------------------------------------------------------- |
+| **Framework**                 | [Next.js 15](https://nextjs.org/)                         |
+| **Language**                  | [TypeScript](https://www.typescriptlang.org/)             |
+| **Styling**                   | [TailwindCSS](https://tailwindcss.com/)                   |
+| **Icons**                     | [React Icons](https://react-icons.github.io/react-icons/) |
+| **Authentication**            | [NextAuth.js](https://next-auth.js.org/)                  |
+| **Voice & AI API (optional)** | OpenAI / Google Speech API                                |
+
+---
+
+## 📁 **Project Structure**
+
+```
+src/
+├── app/
+│   ├── (auth)/
+│   │   └── signin/page.tsx         # Minimal Google & GitHub sign-in page
+│   ├── settings/page.tsx           # Settings panel (voice, language, timer)
+│   ├── page.tsx                    # Main Gani interface
+│   └── layout.tsx                  # Root layout
+├── components/
+│   ├── ui/                         # Reusable UI components
+│   └── voice/                      # Voice interaction logic
+├── lib/                            # Utility functions & configurations
+├── styles/                         # TailwindCSS setup
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔐 **Authentication**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Gani integrates **NextAuth.js** for secure authentication, supporting:
 
-## Learn More
+* Google
+* GitHub
 
-To learn more about Next.js, take a look at the following resources:
+```ts
+// Example configuration (app/api/auth/[...nextauth]/route.ts)
+providers: [
+  GoogleProvider({
+    clientId: process.env.GOOGLE_ID!,
+    clientSecret: process.env.GOOGLE_SECRET!,
+  }),
+  GitHubProvider({
+    clientId: process.env.GITHUB_ID!,
+    clientSecret: process.env.GITHUB_SECRET!,
+  }),
+]
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🧭 **Getting Started**
 
-## Deploy on Vercel
+```bash
+# Clone the repository
+git clone https://github.com/your-username/gani-voice-assistant.git
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Navigate into the project
+cd gani-voice-assistant
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+
+# Run the development server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to explore Gani locally.
+
+---
+
+## ⚙️ **Settings Panel**
+
+The **Settings Panel** gives users control over:
+
+* 🔄 Voice Character (Ayanfe or Ayomide)
+* 🌍 Language (English or Hausa)
+* ⏱️ Voice Timer / Pause Duration
+
+It’s **fullscreen on mobile** and **floating on desktop**, ensuring accessibility and simplicity.
+
+---
+
+## 🔮 **Future Enhancements**
+
+* 🎧 Real-time voice recognition via AI integration
+* 📢 Natural Hausa & English accent synthesis
+* 💬 Persistent chat history
+* ⚡ Offline mode for basic operations
+* 🪄 Custom voice training for personalized interactions
+
+---
+
+## 💡 **Philosophy**
+
+> “Gani isn’t just about talking — it’s about connecting.”
+
+Gani is a bridge between cultures, empowering expression and learning through technology.
+It celebrates language diversity while simplifying how humans interact with machines.
+
+---
+
+## 🩵 **Authors**
+
+* **Ayomide** [@mide2020-16]
+  *Mathematician · Web Developer · Visionary Educator*
+
+* **Ayanfeoluwa** [@ogayanfe]
+  *Creative Developer · DSA Enthhusiast · Full Stack Developer*
+
+> “Building intelligent systems that speak with purpose.”
+
+---
+
+## Gallery
+![Gani Voice Assistant Demo](/demo/demo2.png)
+![Gani Voice Assistant Demo](/demo/demo3.png)
+![Gani Voice Assistant Demo](/demo/demo4.png)
+![Gani Voice Assistant Demo](/demo/demo5.png)
+![Gani Voice Assistant Demo](/demo/demo6.png)
+![Gani Voice Assistant Demo](/demo/demo7.png)
+![Gani Voice Assistant Demo](/demo/demo8.png)
+![Gani Voice Assistant Demo](/demo/demo9.png)
+![Gani Voice Assistant Demo](/demo/demo10.jpg)
+
+ ---
+
+## 📜 **License**
+
+This project is licensed under the **MIT License**.
+Feel free to fork, modify, and contribute to make Gani even more expressive and intelligent.
