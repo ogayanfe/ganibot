@@ -58,7 +58,13 @@ export default function LiveStream() {
 
   return (
     <main className="flex flex-col items-center justify-center h-screen w-screen fixed left-0 top-0">
-      <video ref={videoRef} autoPlay muted playsInline className="w-full h-full rounded-2xl shadow-md dark:border-gray-300 border-black" />
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        playsInline
+        className="w-full h-full rounded-2xl shadow-md dark:border-gray-300 border-black object-fill"
+      />
     </main>
   );
 }

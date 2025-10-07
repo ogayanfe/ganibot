@@ -12,11 +12,8 @@ import useAIContext from "@/hooks/use-ai-context";
 export default function ChatHeader() {
   const { captionOn, setCaptionOn } = useAIContext();
   return (
-    <header className="flex justify-between space-x-6 p-8 px-10 text-gray-400 top-0 fixed w-screen z-10 dark:bg-[#0b0f19]">
+    <header className="flex justify-between space-x-6 p-8 px-10 text-gray-400 top-0 fixed w-screen z-10">
       <HeaderTitle />
-      {/* <IconLink href="/" label="Close">
-        <IoClose className="text-4xl" />
-      </IconLink> */}
       <div className="flex gap-6">
         <IconButton
           label="toggle caption"
@@ -27,9 +24,6 @@ export default function ChatHeader() {
         >
           {captionOn ? <LuCaptionsOff size={22} /> : <FaClosedCaptioning size={22} />}
         </IconButton>
-        {/* <IconButton label="" type="button" title="Enable Caption" className="hover:text-white transition">
-          <LuAudioLines size={25} />
-        </IconButton>*/}
         <IconButton label="" type="button" title="Settings" className="hover:text-white transition">
           <VscSettings size={25} />
         </IconButton>

@@ -9,13 +9,15 @@ import ComponentVisiblity from "@/components/utils/component-visibility";
 import useAIContext from "@/hooks/use-ai-context";
 import useAIResponseMutation from "@/hooks/use-ai-response-mutation";
 import useRecorder from "@/hooks/use-recorder";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { blobToBase64 } from "@/utils/client";
+import { LuSpeech } from "react-icons/lu";
 
 export default function NewChat() {
   const { captionOn, audioOn, videoOn, setTranscripts } = useAIContext();
   const { startRecording, stopRecording, recording, getChuncks } = useRecorder();
   const { mutateAsync, isPending } = useAIResponseMutation();
+  const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
 
   async function generateAIResponse(chunks: Blob[]) {
     try {
@@ -27,6 +29,7 @@ export default function NewChat() {
         audio.addEventListener("ended", () => {
           if (!recording && audioOn) startRecording();
         });
+        setAudioElement(audio);
         audio.play();
       }
     } catch (error) {
@@ -51,11 +54,14 @@ export default function NewChat() {
   }, [audioOn]);
 
   return (
-    <div className="h-screen w-screen max-md:min-h-[900px] text-white flex items-center justify-center font-sans transition-all overflow-y-auto">
+    <div className="h-screen w-screen text-white flex items-center justify-center font-sans transition-all overflow-y-auto">
       <ChatHeader />
-      <main className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-10 px-6 flex-grow">
+      <ComponentVisiblity show={!!(audioElement && !audioElement?.paused)}>
+        <LuSpeech className="fixed bottom-40 left-10 z-20 animate-pulse text-gray-900 dark:text-white" size={35} />
+      </ComponentVisiblity>
+      <main className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-10 px-6 flex-grow max-md:min-h-[900px]">
         <div className="w-[400px] max-md:h-[200px]">
-          <SplineChart scene={"/scene.splinecode"} className="max-md:scale-50" />
+          <SplineChart scene={"/scene.splinecode"} className="max-md:scale-50 scale-75 2-[10000]" />
         </div>
         <ComponentVisiblity show={captionOn}>
           <Transcript loading={isPending} />
@@ -67,7 +73,14 @@ export default function NewChat() {
         </ComponentVisiblity>
       </main>
 
-      <ChatFooter recording={recording} loadingAIResponse={isPending} />
+      <ChatFooter
+        recording={recording}
+        loadingAIResponse={isPending}
+        pauseAIResponse={() => {
+          audioElement?.pause();
+          if (!recording && audioOn) startRecording();
+        }}
+      />
     </div>
   );
 }
