@@ -11,10 +11,14 @@ interface AiContextValues {
   setAudioOn: (on: boolean) => unknown;
   setVideoOn: (on: boolean) => unknown;
   setCaptionOn: (on: boolean) => unknown;
+  recordedVideoChunks: Blob[];
+  setRecordedVideoChunks: (c: Blob[]) => unknown;
 }
 
 export const aiContext = createContext<AiContextValues>({
   audioOn: false,
+  recordedVideoChunks: [],
+  setRecordedVideoChunks: console.log,
   videoOn: false,
   captionOn: false,
   transcripts: "",
@@ -33,6 +37,7 @@ export default function AiContextProvider({ children }: IProps) {
   const [videoOn, setVideoOn] = useState(false);
   const [captionOn, setCaptionOn] = useState(false);
   const [transcripts, setTranscripts] = useState("");
+  const [recordedVideoChunks, setRecordedVideoChunks] = useState<Blob[]>([]);
 
   const value: AiContextValues = {
     audioOn,
@@ -42,6 +47,8 @@ export default function AiContextProvider({ children }: IProps) {
     setAudioOn,
     setVideoOn,
     setCaptionOn,
+    recordedVideoChunks,
+    setRecordedVideoChunks,
     setTranscripts,
   };
 

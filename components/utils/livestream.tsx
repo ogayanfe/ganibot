@@ -6,9 +6,8 @@ import React, { useEffect, useRef, useState } from "react";
 export default function LiveStream() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
-  const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
   const [isRecording, setIsRecording] = useState(false);
-  const { videoOn } = useAIContext();
+  const { videoOn, recordedVideoChunks, setRecordedVideoChunks } = useAIContext();
 
   // Start the camera and recording
   const startRecording = async () => {
@@ -20,12 +19,12 @@ export default function LiveStream() {
       const chunks: Blob[] = [];
 
       recorder.ondataavailable = (e) => {
-        if (e.data.size > 0) chunks.push(e.data);
+        if (e.data.size > 0) setRecordedVideoChunks([...recordedVideoChunks, e.data]);
       };
 
       recorder.onstop = () => {
         const blob = new Blob(chunks, { type: "video/webm" });
-        setRecordedChunks(chunks);
+        setRecordedVideoChunks(chunks);
         setIsRecording(false);
       };
 
@@ -37,6 +36,9 @@ export default function LiveStream() {
     }
   };
 
+  function clearRecordedVideoChunks() {
+    setRecordedVideoChunks([]);
+  }
   // Stop the recording
   const stopRecording = () => {
     if (mediaRecorder) {

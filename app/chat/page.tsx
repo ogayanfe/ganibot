@@ -15,7 +15,7 @@ import { LuSpeech } from "react-icons/lu";
 import cn from "@/utils/cn";
 
 export default function NewChat() {
-  const { captionOn, audioOn, videoOn, setTranscripts } = useAIContext();
+  const { captionOn, audioOn, videoOn, setTranscripts, recordedVideoChunks } = useAIContext();
   const { startRecording, stopRecording, recording, getChuncks } = useRecorder();
   const { mutateAsync, isPending } = useAIResponseMutation();
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
@@ -23,7 +23,9 @@ export default function NewChat() {
   async function generateAIResponse(chunks: Blob[]) {
     try {
       const base64Audio = await blobToBase64(new Blob(chunks, { type: "audio/mp3" }));
-      const response = await mutateAsync({ base64Audio });
+      const base64Video = await blobToBase64(new Blob(recordedVideoChunks, { type: "video/webm" }));
+      console.log(base64Video);
+      const response = await mutateAsync({ base64Audio, base64Video });
       setTranscripts(response.transcript ?? "");
       if (response.audioBase64) {
         const audio = new Audio(`data:audio/wav;base64,${response.audioBase64}`);

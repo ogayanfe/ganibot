@@ -10,13 +10,15 @@ interface IResponse {
   text: string;
   audioBase64?: string;
 }
-export default async function generateAIResponse({ base64Audio }: AIResponsePayload): Promise<IResponse> {
+export default async function generateAIResponse({ base64Audio, base64Video }: AIResponsePayload): Promise<IResponse> {
+  const parts = [{ text: "Reply to user's message" }, { inlineData: { mimeType: "audio/mp3", data: base64Audio } }];
+  if (base64Video) {
+    parts.push({ inlineData: { mimeType: "video/webm", data: base64Video } });
+  }
   const contents = [
     {
-      inlineData: {
-        mimeType: "audio/mp3",
-        data: base64Audio,
-      },
+      role: "user",
+      parts: parts,
     },
   ];
 

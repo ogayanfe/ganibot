@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import useAIContext from "./use-ai-context";
 
 export default function useRecorder() {
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
   const [recording, setRecording] = useState<boolean>(false);
   const chunks = useRef<Blob[]>([]);
+  const { setRecordedVideoChunks } = useAIContext();
 
   // Silence detection helpers
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -14,6 +16,7 @@ export default function useRecorder() {
 
   async function startRecording(onSilence?: () => void) {
     chunks.current = [];
+    setRecordedVideoChunks([]);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
