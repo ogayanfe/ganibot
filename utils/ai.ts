@@ -2,15 +2,21 @@
 
 import { AIResponsePayload } from "@/actions/generate-audio";
 import { GoogleGenAI } from "@google/genai";
-import { SYSTEM_PROMPT } from "./constants";
+import { SYSTEM_PROMPT_HAUSA_RESPONSE, SYSTEM_PROMPT_ENGLISH_RESPONSE } from "./constants";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 interface IResponse {
   text: string;
+  language?: "English" | "Hausa";
   audioBase64?: string;
 }
-export default async function generateAIResponse({ base64Audio, base64Video }: AIResponsePayload): Promise<IResponse> {
+export default async function generateAIResponse({
+  base64Audio,
+  base64Video,
+  language = "Hausa",
+  voice = "Male",
+}: AIResponsePayload): Promise<IResponse> {
   const parts = [{ text: "Reply to user's message" }, { inlineData: { mimeType: "audio/mp3", data: base64Audio } }];
   if (base64Video) {
     parts.push({ inlineData: { mimeType: "video/webm", data: base64Video } });
@@ -27,12 +33,12 @@ export default async function generateAIResponse({ base64Audio, base64Video }: A
     contents: contents,
     config: {
       temperature: 0.1,
-      systemInstruction: SYSTEM_PROMPT,
+      systemInstruction: language === "Hausa" ? SYSTEM_PROMPT_HAUSA_RESPONSE : SYSTEM_PROMPT_ENGLISH_RESPONSE,
     },
   });
   const text = response.text?.trim() ?? "";
-  if (!text) {
-    return { text: "" };
+  if (!text || language !== "Hausa") {
+    return { text, language };
   }
 
   const flaskRes = await fetch(process.env.BACKEND_HAUSA_AUDIO_SERVER_URL ?? "", {
@@ -40,14 +46,14 @@ export default async function generateAIResponse({ base64Audio, base64Video }: A
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ text, speaker: voice === "Male" ? "spk_m_2" : "spk_f_1" }),
   });
 
   if (!flaskRes.ok) {
-    return { text };
+    return { text, language };
   }
 
   const audioBuffer = await flaskRes.arrayBuffer();
   const base64 = Buffer.from(audioBuffer).toString("base64");
-  return { text, audioBase64: base64 };
+  return { text, language, audioBase64: base64 };
 }

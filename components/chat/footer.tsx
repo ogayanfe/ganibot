@@ -20,7 +20,7 @@ export default function ChatFooter({ recording, loadingAIResponse, pauseAIRespon
   const { audioOn, videoOn, setAudioOn, setVideoOn } = useAIContext();
   return (
     <footer className="flex justify-center items-center gap-10 py-6 border-gray-800 h-[200px] fixed bottom-0 w-screen text-gray-900 dark:text-gray-50 bg-inherit object-cover">
-      <IconButton label="video" onClick={() => setVideoOn(!videoOn)}>
+      <IconButton label="video" onClick={() => setVideoOn(!videoOn)} className="z-50">
         {videoOn ? <CiVideoOn size={35} /> : <CiVideoOff size={35} />}
       </IconButton>
 
@@ -29,7 +29,7 @@ export default function ChatFooter({ recording, loadingAIResponse, pauseAIRespon
           type="button"
           label="Enable Caption"
           onClick={() => setAudioOn(!audioOn)}
-          className="relative p-6 rounded-full bg-gradient-to-br from-indigo-500 text-white to-purple-600 shadow-lg hover:scale-105 transition transform"
+          className="relative p-6 rounded-full bg-gradient-to-br z-50 from-indigo-500 text-white to-purple-600 shadow-lg hover:scale-105 transition transform"
         >
           {audioOn ? (
             recording ? (
@@ -46,7 +46,7 @@ export default function ChatFooter({ recording, loadingAIResponse, pauseAIRespon
       </div>
 
       <ComponentVisiblity show={!!pauseAIResponse}>
-        <IconButton label="close" onClick={pauseAIResponse}>
+        <IconButton label="close" onClick={pauseAIResponse} className="z-50">
           <HiStopCircle size={55} className="" />
         </IconButton>
       </ComponentVisiblity>

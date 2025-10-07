@@ -5,10 +5,12 @@ import generateAIResponse from "@/utils/ai";
 export interface AIResponsePayload {
   base64Audio: string;
   base64Video?: string;
+  voice?: "Male" | "Female";
+  language?: "Hausa" | "English";
 }
 
 export default async function generateAudio(payload: AIResponsePayload) {
-  const { text, audioBase64 } = await generateAIResponse(payload);
+  const { text, ...rest } = await generateAIResponse(payload);
 
-  return { transcript: text, audioBase64 };
+  return { transcript: text, ...rest };
 }

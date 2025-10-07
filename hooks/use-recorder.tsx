@@ -6,7 +6,7 @@ export default function useRecorder() {
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
   const [recording, setRecording] = useState<boolean>(false);
   const chunks = useRef<Blob[]>([]);
-  const { setRecordedVideoChunks } = useAIContext();
+  const { setRecordedVideoChunks, pauseTime } = useAIContext();
 
   // Silence detection helpers
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -48,15 +48,13 @@ export default function useRecorder() {
     function checkSilence() {
       analyserRef.current?.getByteFrequencyData(dataArray);
       const volume = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
-      console.log(volume);
 
       // adjust threshold depending on noise
       if (volume < 5) {
         if (!silenceTimerRef.current) {
           silenceTimerRef.current = setTimeout(() => {
-            console.log("Silence detected for 2s, stopping recorder...");
             stopRecording();
-          }, 2000); // 2s silence
+          }, pauseTime * 1000);
         }
       } else {
         if (silenceTimerRef.current) {
@@ -74,7 +72,6 @@ export default function useRecorder() {
   }, [recording]);
 
   async function stopRecording(_recorder?: typeof recorder) {
-    console.log(recorder);
     if (!_recorder) _recorder = recorder;
 
     if (!_recorder) return null;

@@ -1,12 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { IoClose } from 'react-icons/io5';
+import useAIContext from "@/hooks/use-ai-context";
+import { IoClose } from "react-icons/io5";
 
 export default function Settings() {
-  const [selectedVoice, setSelectedVoice] = useState('Male');
-  const [language, setLanguage] = useState('Hausa');
-  const [pauseTime, setPauseTime] = useState<number>(2);
+  const { selectedVoice, setSelectedVoice, language, setLanguage, pauseTime, setPauseTime } = useAIContext();
 
   return (
     <div
@@ -16,9 +14,7 @@ export default function Settings() {
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-          Settings
-        </h2>
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Settings</h2>
 
         {/* Close button (mobile only) */}
         <button
@@ -33,20 +29,18 @@ export default function Settings() {
 
       {/* Voice Selection */}
       <div className="mb-6">
-        <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">
-          Voice Character
-        </label>
+        <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">Voice Character</label>
         <div className="flex sm:flex-col md:flex-row flex-col gap-3">
-          {['Male', 'Female'].map((voice) => (
+          {["Male", "Female"].map((voice) => (
             <button
               key={voice}
               type="button"
               title={`Select ${voice}`}
-              onClick={() => setSelectedVoice(voice)}
+              onClick={() => setSelectedVoice(voice as "Male" | "Female")}
               className={`flex-1 border rounded-lg py-2 text-center transition-colors ${
                 selectedVoice === voice
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  ? "bg-blue-600 text-white border-blue-600"
+                  : "border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
               }`}
             >
               {voice}
@@ -57,25 +51,21 @@ export default function Settings() {
 
       {/* Language Dropdown */}
       <div className="mb-6">
-        <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">
-          Language
-        </label>
+        <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">Language</label>
         <select
           title="Language Selection"
           value={language}
-          onChange={(e) => setLanguage(e.target.value)}
+          onChange={(e) => setLanguage(e.target.value as "English" | "Hausa")}
           className="w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2 px-3 bg-transparent text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-600"
         >
-          <option>English</option>
+          {/* <option>English</option> */}
           <option>Hausa</option>
         </select>
       </div>
 
       {/* Pause Timer */}
       <div className="mb-8">
-        <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">
-          Pause Timer (seconds)
-        </label>
+        <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">Wait time before AI responds (seconds)</label>
         <input
           title="Stop Timer"
           type="number"
@@ -83,8 +73,9 @@ export default function Settings() {
           id="timer"
           value={pauseTime}
           onChange={(e) => setPauseTime(Number(e.target.value))}
-          placeholder="e.g. 5"
-          min={0}
+          placeholder="e.g. 5 (A number between 7 and 5"
+          min={1.5}
+          max={10}
           className="w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2 px-3 bg-transparent text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
       </div>
