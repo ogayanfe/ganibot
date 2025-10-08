@@ -13,9 +13,28 @@ import React, { useEffect, useRef, useState } from "react";
 import { blobToBase64 } from "@/utils/client";
 import { LuSpeech } from "react-icons/lu";
 import cn from "@/utils/cn";
+import { Part } from "@google/genai";
+import { HistoryItem } from "@/actions/generate-audio";
+
+function createHistoryItem(role: "user" | "model", text: string, base64Audio?: string, base64Video?: string): HistoryItem {
+  const parts: Part[] = [{ text }];
+
+  if (base64Video) {
+    parts.push({ inlineData: { mimeType: "video/webm", data: base64Video } });
+  }
+
+  if (base64Audio) {
+    parts.push({ inlineData: { mimeType: "audio/mp3", data: base64Audio } });
+  }
+
+  return {
+    role: role,
+    parts: parts,
+  };
+}
 
 export default function NewChat() {
-  const { captionOn, audioOn, videoOn, setTranscripts, recordedVideoChunks, selectedVoice, language } = useAIContext();
+  const { captionOn, audioOn, videoOn, setTranscripts, recordedVideoChunks, selectedVoice, language, chatHistory, setChatHistory } = useAIContext();
   const { startRecording, stopRecording, recording, getChuncks } = useRecorder();
   const { mutateAsync, isPending } = useAIResponseMutation();
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
@@ -24,8 +43,12 @@ export default function NewChat() {
     try {
       const base64Audio = await blobToBase64(new Blob(chunks, { type: "audio/mp3" }));
       const base64Video = await blobToBase64(new Blob(recordedVideoChunks, { type: "video/webm" }));
-      console.log(base64Video);
-      const response = await mutateAsync({ base64Audio, base64Video, language, voice: selectedVoice });
+      const response = await mutateAsync({ base64Audio, base64Video, language, voice: selectedVoice, history: chatHistory });
+
+      const userQuery = createHistoryItem("user", "reply to audio and video contents", base64Audio, undefined);
+      const aiResponse = createHistoryItem("model", response.transcript ?? "");
+      setChatHistory([...chatHistory, userQuery, aiResponse]);
+
       setTranscripts(response.transcript ?? "");
       if (response.language !== "Hausa") {
         return;
