@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import ThemeContextProvider from "@/providers/theme-context";
@@ -17,15 +18,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Gani",
-  description: "AI assistant for native hausa speakers",
-};
+  title: 'Gani Voice Assistant',
+  description: 'A bilingual AI-powered voice assistant',
+  manifest: '/manifest.json',
+  themeColor: '#111827',
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+    useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then(() => console.log('✅ Service Worker registered'))
+          .catch((err) => console.error('SW registration failed:', err))
+      })
+    }
+  }, [])
+  
   return (
     <html lang="en">
       <GaniSessionProvider>

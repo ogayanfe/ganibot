@@ -1,11 +1,7 @@
 "use client";
 
 import useAIContext from "@/hooks/use-ai-context";
-<<<<<<< HEAD
-import { IoIosInformationCircle } from "react-icons/io";
-=======
 import { BiInfoCircle } from "react-icons/bi";
->>>>>>> cda04b8c114de10b0f98eb92a6e08d2a4026f528
 import { IoClose } from "react-icons/io5";
 
 export default function Settings() {
@@ -71,7 +67,7 @@ export default function Settings() {
       {/* Pause Timer */}
       <div className="mb-8">
         <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">
-          Time stopper(seconds) <label className="text-blue-500"><IoIosInformationCircle size={18}/></label></label>
+          Time stopper(seconds)</label>
         <input
           title="Stop Timer"
           type="number"
