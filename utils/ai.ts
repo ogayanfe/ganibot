@@ -1,7 +1,7 @@
 "use server";
 
 import { AIResponsePayload } from "@/actions/generate-audio";
-import { GoogleGenAI } from "@google/genai";
+import { createPartFromUri, GoogleGenAI } from "@google/genai";
 import { SYSTEM_PROMPT_HAUSA_RESPONSE, SYSTEM_PROMPT_ENGLISH_RESPONSE } from "./constants";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -11,17 +11,20 @@ interface IResponse {
   language?: "English" | "Hausa";
   audioBase64?: string;
 }
+
 export default async function generateAIResponse({
   base64Audio,
   base64Video,
   language = "Hausa",
   voice = "Male",
+  history = [],
 }: AIResponsePayload): Promise<IResponse> {
   const parts = [{ text: "Reply to user's message" }, { inlineData: { mimeType: "audio/mp3", data: base64Audio } }];
   if (base64Video) {
     parts.push({ inlineData: { mimeType: "video/webm", data: base64Video } });
   }
   const contents = [
+    ...history,
     {
       role: "user",
       parts: parts,

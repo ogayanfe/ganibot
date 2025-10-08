@@ -1,5 +1,6 @@
 "use client";
 
+import { HistoryItem } from "@/actions/generate-audio";
 import { createContext, useEffect, useState } from "react";
 
 interface AiContextValues {
@@ -19,7 +20,12 @@ interface AiContextValues {
   setCaptionOn: (on: boolean) => unknown;
   recordedVideoChunks: Blob[];
   setRecordedVideoChunks: (c: Blob[]) => unknown;
+  chatHistory: HistoryItem[];
+  setChatHistory: (path: HistoryItem[]) => unknown;
+  maxChatHistoryLength: number;
 }
+
+const maxChatHistoryLength = 2;
 
 export const aiContext = createContext<AiContextValues>({
   audioOn: false,
@@ -38,6 +44,9 @@ export const aiContext = createContext<AiContextValues>({
   setVideoOn: console.log,
   setCaptionOn: console.log,
   setTranscripts: console.log,
+  chatHistory: [],
+  setChatHistory: console.log,
+  maxChatHistoryLength,
 });
 
 interface IProps {
@@ -53,6 +62,7 @@ export default function AiContextProvider({ children }: IProps) {
   const [language, setLanguage] = useState<"Hausa" | "English">("Hausa");
   const [pauseTime, setPauseTime] = useState<number>(2);
   const [recordedVideoChunks, setRecordedVideoChunks] = useState<Blob[]>([]);
+  const [chatHistory, setChatHistory] = useState<HistoryItem[]>([]);
 
   useEffect(() => {
     setSelectedVoice((localStorage.getItem("selectedVoice") as "Male" | "Female" | null) ?? "Male");
@@ -70,6 +80,12 @@ export default function AiContextProvider({ children }: IProps) {
     localStorage.setItem("pauseTime", pauseTime.toString());
   }, [pauseTime]);
 
+  useEffect(() => {
+    if (chatHistory.length > maxChatHistoryLength) {
+      setChatHistory(chatHistory.slice(chatHistory.length - maxChatHistoryLength, chatHistory.length));
+    }
+  }, [chatHistory]);
+
   const value: AiContextValues = {
     audioOn,
     selectedVoice,
@@ -86,7 +102,10 @@ export default function AiContextProvider({ children }: IProps) {
     setTranscripts,
     setSelectedVoice,
     setLanguage,
+    chatHistory,
+    setChatHistory,
     setPauseTime,
+    maxChatHistoryLength,
   };
 
   return <aiContext.Provider value={value}>{children}</aiContext.Provider>;

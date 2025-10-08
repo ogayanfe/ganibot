@@ -1,11 +1,15 @@
 "use client";
 
 import useAIContext from "@/hooks/use-ai-context";
+<<<<<<< HEAD
 import { IoIosInformationCircle } from "react-icons/io";
+=======
+import { BiInfoCircle } from "react-icons/bi";
+>>>>>>> cda04b8c114de10b0f98eb92a6e08d2a4026f528
 import { IoClose } from "react-icons/io5";
 
 export default function Settings() {
-  const { selectedVoice, setSelectedVoice, language, setLanguage, pauseTime, setPauseTime } = useAIContext();
+  const { selectedVoice, setSelectedVoice, language, setLanguage, pauseTime, setPauseTime, maxChatHistoryLength } = useAIContext();
 
   return (
     <div
@@ -81,6 +85,11 @@ export default function Settings() {
           className="w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2 px-3 bg-transparent text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
       </div>
+
+      <p className="text-gray-900 dark:text-blue-300 text-sm flex gap-2">
+        <BiInfoCircle className="mt-1 text-lg" />
+        The AI only remembers up to your last {maxChatHistoryLength} requests
+      </p>
     </div>
   );
 }
