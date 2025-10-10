@@ -10,7 +10,6 @@ import HeaderTitle from "../header-title";
 import useAIContext from "@/hooks/use-ai-context";
 import Settings from "./settings";
 import { useState } from "react";
-import ComponentVisiblity from "../utils/component-visibility";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ChatHeader() {
@@ -57,7 +56,7 @@ export default function ChatHeader() {
             className="dark:hover:text-white transition text-gray-700 dark:text-blue-100"
             onClick={() => setIsSettingOpen((prev) => !prev)}
           >
-            <VscSettings size={22} />
+            <VscSettings size={25} />
           </IconButton>
         </motion.div>
 

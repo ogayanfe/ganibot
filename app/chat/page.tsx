@@ -52,14 +52,22 @@ export default function NewChat() {
     try {
       const base64Audio = await blobToBase64(new Blob(chunks, { type: "audio/mp3" }));
       const base64Video = await blobToBase64(new Blob(recordedVideoChunks, { type: "video/webm" }));
-      const response = await mutateAsync({ base64Audio, base64Video, language, voice: selectedVoice, history: chatHistory });
+      const response = await mutateAsync({
+        base64Audio,
+        base64Video,
+        language,
+        voice: selectedVoice,
+        history: chatHistory,
+      });
 
       const userQuery = createHistoryItem("user", "reply to audio and video contents", base64Audio);
       const aiResponse = createHistoryItem("model", response.transcript ?? "");
       setChatHistory([...chatHistory, userQuery, aiResponse]);
-      setTranscripts(response.transcript ?? "");
 
-      if (response.audioBase64 && response.language === "Hausa") {
+      setTranscripts(response.transcript ?? "");
+      if (response.language !== "Hausa") return;
+
+      if (response.audioBase64) {
         const audio = new Audio(`data:audio/wav;base64,${response.audioBase64}`);
         audio.addEventListener("ended", () => {
           if (!recording && audioOn) startRecording();
@@ -67,68 +75,59 @@ export default function NewChat() {
         setAudioElement(audio);
         audio.play();
       }
-    } catch {
+    } catch (error) {
       if (!recording && audioOn) startRecording();
+      console.error("AI response error:", error);
       alert("Error getting response");
     }
   }
 
   useEffect(() => {
     const chunks = getChuncks();
-    if (!recording && chunks.length > 0) generateAIResponse(chunks);
+    if (recording || chunks.length === 0) return;
+    generateAIResponse(chunks);
   }, [recording]);
 
   useEffect(() => {
-    if (audioOn) startRecording();
-    else stopRecording();
+    if (!audioOn) {
+      stopRecording();
+      return;
+    }
+    startRecording();
   }, [audioOn]);
 
   return (
     <motion.div
-      className="h-screen w-screen text-white flex flex-col items-center justify-center font-sans transition-all overflow-y-auto"
+      className="relative h-screen w-screen text-white flex flex-col font-sans transition-all overflow-y-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1.2, ease: "easeOut" }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
     >
-      {/* Header with soft fade-down */}
-      <motion.div
-        initial={{ y: -40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.3, type: "spring", stiffness: 80 }}
-      >
-        <ChatHeader />
-      </motion.div>
+      {/* Header */}
+      <ChatHeader />
 
-      {/* Floating Speech Icon */}
-      <AnimatePresence>
-        {audioElement && !audioElement?.paused && (
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 120, damping: 12 }}
-          >
-            <LuSpeech className="fixed bottom-40 left-10 z-20 text-gray-900 dark:text-white animate-pulse" size={35} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Speech Indicator */}
+      <ComponentVisiblity show={!!(audioElement && !audioElement.paused)}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 120, damping: 15 }}
+          className="fixed bottom-40 left-10 z-20"
+        >
+          <LuSpeech className="animate-pulse text-gray-900 dark:text-white" size={35} />
+        </motion.div>
+      </ComponentVisiblity>
 
       {/* Main Content */}
-      <motion.main
-        className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-10 px-6 flex-grow max-md:min-h-[900px]"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
-      >
-        {/* 3D Spline Scene */}
+      <main className="flex flex-col lg:flex-row flex-grow items-center justify-center gap-10 px-6 relative">
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.8, type: "spring", stiffness: 100 }}
           className={cn(
             "w-[400px] max-md:h-[200px] max-md:flex-grow",
-            videoOn && "-right-20 sm:right-0 bottom-40 h-[400px] md:bottom-0 fixed z-20"
+            videoOn && "fixed -right-20 sm:right-0 bottom-40 h-[400px] md:bottom-0 z-20"
           )}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.15, type: "spring", stiffness: 90, damping: 18 }}
         >
           <SplineChart
             scene="/scene.splinecode"
@@ -136,33 +135,41 @@ export default function NewChat() {
           />
         </motion.div>
 
-        <ComponentVisiblity show={captionOn}>
-          <motion.div
-            initial={{ y: 40, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 1, type: "spring", damping: 20 }}
-          >
-            <Transcript loading={isPending} />
-          </motion.div>
-        </ComponentVisiblity>
+        <AnimatePresence>
+          {captionOn && (
+            <motion.div
+              key="transcript"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <Transcript loading={isPending} />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        <ComponentVisiblity show={videoOn}>
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 1.2, type: "spring", stiffness: 120 }}
-          >
-            <Video />
-          </motion.div>
-        </ComponentVisiblity>
-      </motion.main>
+        <AnimatePresence>
+          {videoOn && (
+            <motion.div
+              key="video"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 100, damping: 14 }}
+            >
+              <Video />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </main>
 
-      {/* Footer */}
+      {/* Footer — stays visible and responsive */}
       <motion.div
-        initial={{ y: 40, opacity: 0 }}
+        className="sticky bottom-0 left-0 right-0 z-30 backdrop-blur-lg bg-black/40"
+        initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 1.5, type: "spring", stiffness: 90 }}
-        className="w-full"
+        transition={{ delay: 0.3, type: "spring", stiffness: 80, damping: 12 }}
       >
         <ChatFooter
           recording={recording}

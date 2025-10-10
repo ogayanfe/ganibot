@@ -35,9 +35,6 @@ export default function SplineChart({ scene, className }: SplineChartProps) {
         >
           <Spline scene={scene} style={{ width: "100%", height: "100%" }} />
         </motion.div>
-
-        {/* Optional Apple-style blurred glow underlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-100/5 via-transparent to-transparent dark:from-blue-900/10 backdrop-blur-[1px]" />
       </motion.div>
     </main>
   );
