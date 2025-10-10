@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, AnimatePresence } from "framer-motion";
 import useAIContext from "@/hooks/use-ai-context";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -9,7 +10,6 @@ export default function LiveStream() {
   const [isRecording, setIsRecording] = useState(false);
   const { videoOn, recordedVideoChunks, setRecordedVideoChunks } = useAIContext();
 
-  // Start the camera and recording
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -36,10 +36,6 @@ export default function LiveStream() {
     }
   };
 
-  function clearRecordedVideoChunks() {
-    setRecordedVideoChunks([]);
-  }
-  // Stop the recording
   const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
@@ -54,19 +50,46 @@ export default function LiveStream() {
       return;
     }
     stopRecording();
-
     return () => stopRecording();
   }, [videoOn]);
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen w-screen fixed left-0 top-0">
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        playsInline
-        className="w-full h-full rounded-2xl shadow-md dark:border-gray-300 border-black object-fill"
-      />
+    <main className="flex flex-col items-center justify-center h-screen w-screen fixed left-0 top-0 overflow-hidden">
+      <AnimatePresence>
+        {videoOn && (
+          <motion.div
+            key="camera"
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="relative w-full h-full flex items-center justify-center"
+          >
+            {/* Subtle animated border glow */}
+            <motion.div
+              animate={{
+                boxShadow: isRecording
+                  ? ["0 0 0px rgba(255,0,0,0)", "0 0 20px rgba(255,0,0,0.3)", "0 0 0px rgba(255,0,0,0)"]
+                  : ["0 0 0px rgba(255,255,255,0)", "0 0 20px rgba(255,255,255,0.2)", "0 0 0px rgba(255,255,255,0)"],
+              }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute w-[98%] h-[98%] rounded-2xl border border-gray-300 dark:border-gray-700"
+            />
+
+            {/* Camera Feed */}
+            <motion.video
+              ref={videoRef}
+              autoPlay
+              muted
+              playsInline
+              className="w-full h-full rounded-2xl object-cover shadow-xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

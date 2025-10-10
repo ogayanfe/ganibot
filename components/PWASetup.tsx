@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { PiPlusBold } from 'react-icons/pi'
 import { BiShare } from 'react-icons/bi'
 import { sendNotification, subscribeUser, unsubscribeUser } from '../action'
 
+// Utility: Convert VAPID key to Uint8Array
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
@@ -71,53 +73,83 @@ function PushNotificationManager() {
   }
 
   return (
-    <div className="p-4 border rounded-xl shadow-md space-y-3 bg-gray-50">
-      <h3 className="font-semibold text-lg">Push Notifications</h3>
+    <motion.section
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      className="p-6 rounded-2xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 
+                 bg-white/50 dark:bg-[#0B0F19]/40 backdrop-blur-md 
+                 space-y-4 transition-all"
+    >
+      <motion.h3
+        initial={{ opacity: 0, x: -8 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.1 }}
+        className="font-semibold text-lg text-gray-900 dark:text-gray-100"
+      >
+        Push Notifications
+      </motion.h3>
 
       {subscription ? (
-        <>
-          <p className="text-green-700">✅ Subscribed to notifications</p>
+        <motion.div
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-4"
+        >
+          <p className="text-green-600">✅ Subscribed to notifications</p>
           <input
             type="text"
             placeholder="Enter message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="border px-3 py-2 rounded w-full"
+            className="border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-xl 
+                       w-full focus:outline-none focus:ring-2 focus:ring-blue-500/40 
+                       bg-white/80 dark:bg-gray-900/50 transition"
           />
+
           <div className="flex gap-3">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               type="button"
-              title="Send notification"
               onClick={sendTestNotification}
               disabled={loading || !message.trim()}
-              className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+              className="bg-blue-600 text-white px-4 py-2 rounded-xl font-medium 
+                         disabled:opacity-50 shadow-sm transition"
             >
               {loading ? 'Sending...' : 'Send Test'}
-            </button>
-            <button
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
               type="button"
-              title="Unsubscribe from push"
               onClick={unsubscribeFromPush}
-              className="text-red-600 underline"
+              className="text-red-600 hover:text-red-700 underline"
             >
               Unsubscribe
-            </button>
+            </motion.button>
           </div>
-        </>
+        </motion.div>
       ) : (
-        <>
-          <p className="text-gray-600">You are not subscribed.</p>
-          <button
+        <motion.div
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-4"
+        >
+          <p className="text-gray-600 dark:text-gray-300">You are not subscribed.</p>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             type="button"
-            title="Subscribe to push"
             onClick={subscribeToPush}
-            className="bg-green-600 text-white px-4 py-2 rounded"
+            className="bg-green-600 text-white px-4 py-2 rounded-xl font-medium shadow-sm"
           >
             Subscribe
-          </button>
-        </>
+          </motion.button>
+        </motion.div>
       )}
-    </div>
+    </motion.section>
   )
 }
 
@@ -151,31 +183,53 @@ function InstallPrompt() {
   if (isStandalone) return null
 
   return (
-    <div className="p-4 mt-4 border rounded-xl shadow-md space-y-3 bg-gray-50">
-      <h3 className="font-semibold text-lg">Install Gani</h3>
-      <button
+    <motion.section
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
+      className="p-6 rounded-2xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 
+                 bg-white/50 dark:bg-[#0B0F19]/40 backdrop-blur-md 
+                 space-y-4 transition-all"
+    >
+      <motion.h3
+        initial={{ opacity: 0, x: -8 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.15 }}
+        className="font-semibold text-lg text-gray-900 dark:text-gray-100"
+      >
+        Install Gani
+      </motion.h3>
+
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
         type="button"
-        title="Add to Home Screen"
         onClick={handleInstall}
         disabled={!deferredPrompt}
-        className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50"
+        className="bg-indigo-600 text-white px-4 py-2 rounded-xl font-medium shadow-sm 
+                   disabled:opacity-50 transition"
       >
         Add to Home Screen
-      </button>
+      </motion.button>
 
       {isIOS && (
-        <p className="text-gray-700 text-sm">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-gray-700 dark:text-gray-300 text-sm"
+        >
           On iOS, tap the share button <BiShare className="inline" /> then “Add to Home Screen”{' '}
           <PiPlusBold className="inline" />
-        </p>
+        </motion.p>
       )}
-    </div>
+    </motion.section>
   )
 }
 
 export default function PWASetup() {
   return (
-    <main className="p-6 max-w-lg mx-auto space-y-6">
+    <main className="p-6 max-w-lg mx-auto space-y-6 min-h-screen bg-transparent">
       <PushNotificationManager />
       <InstallPrompt />
     </main>

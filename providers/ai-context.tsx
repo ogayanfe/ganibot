@@ -60,14 +60,14 @@ export default function AiContextProvider({ children }: IProps) {
   const [transcripts, setTranscripts] = useState("");
   const [selectedVoice, setSelectedVoice] = useState<"Male" | "Female">("Male");
   const [language, setLanguage] = useState<"Hausa" | "English">("Hausa");
-  const [pauseTime, setPauseTime] = useState<number>(2);
+  const [pauseTime, setPauseTime] = useState<number>(5);
   const [recordedVideoChunks, setRecordedVideoChunks] = useState<Blob[]>([]);
   const [chatHistory, setChatHistory] = useState<HistoryItem[]>([]);
 
   useEffect(() => {
     setSelectedVoice((localStorage.getItem("selectedVoice") as "Male" | "Female" | null) ?? "Male");
     setLanguage((localStorage.getItem("language") as "English" | "Hausa" | null) ?? "Hausa");
-    setPauseTime(parseInt(localStorage.getItem("pauseTime") ?? "2"));
+    setPauseTime(parseInt(localStorage.getItem("pauseTime") ?? "5"));
   }, []);
 
   useEffect(() => {

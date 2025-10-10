@@ -10,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: '/',
     display: 'standalone',
     orientation: 'portrait-primary',
-    theme_color: '#8936FF',
-    background_color: '#2EC6FE',
+    theme_color: '#FFFFFF',
+    background_color: '#2596BE',
     icons: [
       {
         src: '/icon-192x192.png',
@@ -30,6 +30,22 @@ export default function manifest(): MetadataRoute.Manifest {
         sizes: '512x512',
         type: 'image/png',
         purpose: 'maskable',
+      },
+    ],
+    shortcuts: [
+      {
+        name: 'Start Listening',
+        short_name: 'Listen',
+        url: '/chat',
+        icons: [{ src: '/mic.png', sizes: '96x96', type: 'image/png' }],
+      },
+      {
+        name: 'Translate Mode',
+        short_name: 'Translate',
+        url: '/chat',
+        icons: [
+          { src: '/translate.png', sizes: '96x96', type: 'image/png' },
+        ],
       },
     ],
   }

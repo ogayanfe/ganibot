@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { MdGTranslate } from "react-icons/md";
 import { GiNigeria } from "react-icons/gi";
 import { FaBackward } from "react-icons/fa6";
@@ -18,7 +19,7 @@ export default function Page() {
       const reachedBottom =
         window.innerHeight + window.scrollY >= document.body.offsetHeight;
       if (reachedBottom) clearInterval(scrollInterval);
-    }, 70); // smoother, not too slow
+    }, 70);
 
     return () => clearInterval(scrollInterval);
   }, [language]);
@@ -65,13 +66,25 @@ A asali, Gani ba kawai kayan aiki ba ne — gada ce tsakanin al’adu da fasaha.
 
   return (
     <>
-      <div 
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
         className="min-h-screen flex flex-col justify-center items-center transition-colors duration-300 py-12 px-4"
       >
-        <div 
-        className="w-full max-w-4xl mx-auto backdrop-blur-md p-6 md:p-10 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
+        <motion.div
+          initial={{ scale: 0.96, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full max-w-4xl mx-auto backdrop-blur-md p-6 md:p-10 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800"
+        >
           {/* Header Section */}
-          <div className="flex justify-center items-center mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="flex justify-center items-center mb-8"
+          >
             <HeaderButton
               title=""
               icon={<FaBackward size={20} />}
@@ -81,23 +94,39 @@ A asali, Gani ba kawai kayan aiki ba ne — gada ce tsakanin al’adu da fasaha.
             <h1 className="font-semibold text-lg md:text-2xl text-center flex-1">
               {content[language].title}
             </h1>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
               type="button"
               title="Change Language"
               onClick={() => setLanguage(language === "en" ? "ha" : "en")}
               className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all text-sm md:text-base"
             >
-              {language === "en" ? <GiNigeria size={18} /> : <MdGTranslate size={18} />}
+              {language === "en" ? (
+                <GiNigeria size={18} />
+              ) : (
+                <MdGTranslate size={18} />
+              )}
               {language === "en" ? "Hausa" : "English"}
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
 
           {/* Description */}
-          <p className="text-gray-700 dark:text-gray-200 whitespace-pre-line leading-relaxed text-sm md:text-lg font-mono">
-            {content[language].description}
-          </p>
-        </div>
-      </div>
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={language}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+              className="text-gray-700 dark:text-gray-200 whitespace-pre-line leading-relaxed text-sm md:text-lg font-mono"
+            >
+              {content[language].description}
+            </motion.p>
+          </AnimatePresence>
+        </motion.div>
+      </motion.div>
+
       <Footer />
     </>
   );
