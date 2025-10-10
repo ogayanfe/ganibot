@@ -13,6 +13,8 @@ export default function IconButton(props: IconButtonPropType) {
 
   return (
     <motion.button
+      type="button"
+      title={label}
       {...rest}
       whileTap={{ scale: 0.93, opacity: 0.9 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}

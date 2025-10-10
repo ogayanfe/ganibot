@@ -9,27 +9,34 @@ import useAuthenticatedSession from "@/hooks/utils/use-authenticated";
 
 export default function SignInPage() {
   const authenticated = useAuthenticatedSession();
-  if (authenticated) return redirect("/");
+
+  // ✅ Prevent render flash by returning null until we know session state
+  if (authenticated === undefined) return null;
+
+  if (authenticated) redirect("/");
 
   return (
     <main className="flex items-center justify-center min-h-screen px-8 py-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-[#0B0F19] dark:to-[#111827] transition-colors duration-500">
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full max-w-sm shadow-sm border border-gray-200 dark:border-gray-800 rounded-2xl p-8 px-6 flex flex-col items-center bg-white/60 dark:bg-[#0D1117]/40 backdrop-blur-xl"
+        transition={{
+          duration: 0.9,
+          ease: [0.25, 1, 0.5, 1], // smooth Apple-like curve
+        }}
+        className="w-full max-w-sm shadow-sm border border-gray-200 dark:border-gray-800 rounded-2xl p-8 px-6 flex flex-col items-center backdrop-blur-2xl"
       >
-        {/* Title */}
+        {/* 🔹 Title */}
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-3xl font-semibold mb-8 text-center text-gray-800 dark:text-gray-200"
+          className="text-3xl font-semibold mb-8 text-center text-gray-800 dark:text-gray-100 tracking-tight"
         >
           Sign in to your account
         </motion.h1>
 
-        {/* Sign In Buttons */}
+        {/* 🔹 Sign In Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -42,10 +49,12 @@ export default function SignInPage() {
             whileHover={{ scale: 1.03, y: -1 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => signIn("google")}
-            className="flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 transition-all"
+            className="flex items-center justify-center gap-3 border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 transition-all duration-300"
           >
             <FcGoogle size={20} />
-            <span className="text-gray-800 dark:text-gray-200">Continue with Google</span>
+            <span className="text-gray-800 dark:text-gray-200 font-medium">
+              Continue with Google
+            </span>
           </motion.button>
 
           <motion.button
@@ -54,14 +63,16 @@ export default function SignInPage() {
             whileHover={{ scale: 1.03, y: -1 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => signIn("github")}
-            className="flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 transition-all"
+            className="flex items-center justify-center gap-3 border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 transition-all duration-300"
           >
             <FaGithub size={20} className="text-gray-800 dark:text-gray-300" />
-            <span className="text-gray-800 dark:text-gray-200">Continue with GitHub</span>
+            <span className="text-gray-800 dark:text-gray-200 font-medium">
+              Continue with GitHub
+            </span>
           </motion.button>
         </motion.div>
 
-        {/* Terms */}
+        {/* 🔹 Terms Section */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
