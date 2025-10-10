@@ -44,19 +44,22 @@ export default async function generateAIResponse({
     return { text, language };
   }
 
-  const flaskRes = await fetch(process.env.BACKEND_HAUSA_AUDIO_SERVER_URL ?? "", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ text, speaker: voice === "Male" ? "spk_m_2" : "spk_f_1" }),
-  });
+  try {
+    const flaskRes = await fetch(process.env.BACKEND_HAUSA_AUDIO_SERVER_URL ?? "", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text, speaker: voice === "Male" ? "spk_m_2" : "spk_f_1" }),
+    });
 
-  if (!flaskRes.ok) {
+    if (!flaskRes.ok) {
+      throw new Error("AI Response generation failed");
+    }
+    const audioBuffer = await flaskRes.arrayBuffer();
+    const base64 = Buffer.from(audioBuffer).toString("base64");
+    return { text, language, audioBase64: base64 };
+  } catch (error) {
     return { text, language };
   }
-
-  const audioBuffer = await flaskRes.arrayBuffer();
-  const base64 = Buffer.from(audioBuffer).toString("base64");
-  return { text, language, audioBase64: base64 };
 }

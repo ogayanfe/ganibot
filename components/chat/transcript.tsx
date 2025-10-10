@@ -50,24 +50,14 @@ export default function Transcript({ loading }: IProps) {
             : "text-gray-900 dark:text-white bg-white/40 dark:bg-gray-900/40 border-gray-300/30 dark:border-gray-700/30"
         )}
       >
-        <motion.div
-          key={displayedText}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4 }}
-          className="space-y-4"
-        >
+        <motion.div key={displayedText} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="space-y-4">
           <p
             className={cn(
               "text-lg md:text-2xl font-mono leading-relaxed whitespace-pre-line",
               loading && "animate-pulse text-gray-400 dark:text-gray-500"
             )}
           >
-            {loading
-              ? "Listening..."
-              : displayedText.length > 0
-              ? displayedText
-              : "Your audio transcripts will show here"}
+            {loading ? "Generating Response..." : displayedText.length > 0 ? displayedText : "Your audio transcripts will show here"}
             {/* Blinking cursor effect */}
             {!loading && transcripts && displayedText.length < transcripts.length && (
               <motion.span

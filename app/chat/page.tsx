@@ -17,12 +17,7 @@ import { Part } from "@google/genai";
 import { HistoryItem } from "@/actions/generate-audio";
 import { motion, AnimatePresence } from "framer-motion";
 
-function createHistoryItem(
-  role: "user" | "model",
-  text: string,
-  base64Audio?: string,
-  base64Video?: string
-): HistoryItem {
+function createHistoryItem(role: "user" | "model", text: string, base64Audio?: string, base64Video?: string): HistoryItem {
   const parts: Part[] = [{ text }];
 
   if (base64Video) parts.push({ inlineData: { mimeType: "video/webm", data: base64Video } });
@@ -32,17 +27,7 @@ function createHistoryItem(
 }
 
 export default function NewChat() {
-  const {
-    captionOn,
-    audioOn,
-    videoOn,
-    setTranscripts,
-    recordedVideoChunks,
-    selectedVoice,
-    language,
-    chatHistory,
-    setChatHistory,
-  } = useAIContext();
+  const { captionOn, audioOn, videoOn, setTranscripts, recordedVideoChunks, selectedVoice, language, chatHistory, setChatHistory } = useAIContext();
 
   const { startRecording, stopRecording, recording, getChuncks } = useRecorder();
   const { mutateAsync, isPending } = useAIResponseMutation();
@@ -67,14 +52,16 @@ export default function NewChat() {
       setTranscripts(response.transcript ?? "");
       if (response.language !== "Hausa") return;
 
-      if (response.audioBase64) {
-        const audio = new Audio(`data:audio/wav;base64,${response.audioBase64}`);
-        audio.addEventListener("ended", () => {
-          if (!recording && audioOn) startRecording();
-        });
-        setAudioElement(audio);
-        audio.play();
+      if (!response.audioBase64) {
+        if (!recording && audioOn) startRecording();
+        return;
       }
+      const audio = new Audio(`data:audio/wav;base64,${response.audioBase64}`);
+      audio.addEventListener("ended", () => {
+        if (!recording && audioOn) startRecording();
+      });
+      setAudioElement(audio);
+      audio.play();
     } catch (error) {
       if (!recording && audioOn) startRecording();
       console.error("AI response error:", error);
@@ -121,18 +108,12 @@ export default function NewChat() {
       {/* Main Content */}
       <main className="flex flex-col lg:flex-row flex-grow items-center justify-center gap-10 px-6 relative">
         <motion.div
-          className={cn(
-            "w-[400px] max-md:h-[200px] max-md:flex-grow",
-            videoOn && "fixed -right-20 sm:right-0 bottom-40 h-[400px] md:bottom-0 z-20"
-          )}
+          className={cn("w-[400px] max-md:h-[200px] max-md:flex-grow", videoOn && "fixed -right-20 sm:right-0 bottom-40 h-[400px] md:bottom-0 z-20")}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.15, type: "spring", stiffness: 90, damping: 18 }}
         >
-          <SplineChart
-            scene="/scene.splinecode"
-            className={cn("max-md:scale-[.45] scale-[.68] z-20", videoOn && "!scale-[.2] sm:!scale-[.3]")}
-          />
+          <SplineChart scene="/scene.splinecode" className={cn("max-md:scale-[.45] scale-[.68] z-20", videoOn && "!scale-[.2] sm:!scale-[.3]")} />
         </motion.div>
 
         <AnimatePresence>
@@ -149,19 +130,7 @@ export default function NewChat() {
           )}
         </AnimatePresence>
 
-        <AnimatePresence>
-          {videoOn && (
-            <motion.div
-              key="video"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ type: "spring", stiffness: 100, damping: 14 }}
-            >
-              <Video />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <AnimatePresence>{videoOn && <Video />}</AnimatePresence>
       </main>
 
       {/* Footer — stays visible and responsive */}
