@@ -77,7 +77,11 @@ export default function NewChat() {
       if (response.language !== "Hausa" || !response.transcript) return;
 
       const audio = await playHausaAudio(response.transcript, selectedVoice);
-      if (!audio) return;
+      if (!audio) {
+        alert("Couldn not retrieve audi");
+        if (!recording && audioOn) startRecording();
+        return;
+      }
       audio.addEventListener("ended", () => {
         if (!recording && audioOn) startRecording();
       });
