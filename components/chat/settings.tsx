@@ -6,15 +6,7 @@ import { IoClose } from "react-icons/io5";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 
 export default function Settings() {
-  const {
-    selectedVoice,
-    setSelectedVoice,
-    language,
-    setLanguage,
-    pauseTime,
-    setPauseTime,
-    maxChatHistoryLength,
-  } = useAIContext();
+  const { selectedVoice, setSelectedVoice, language, setLanguage, pauseTime, setPauseTime, maxChatHistoryLength } = useAIContext();
 
   // ✅ Typed and TS-safe motion variants
   const settingsVariants: Variants = {
@@ -48,9 +40,7 @@ export default function Settings() {
       >
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 tracking-tight">
-            Settings
-          </h2>
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 tracking-tight">Settings</h2>
 
           {/* Close button (mobile only) */}
           <motion.button
@@ -67,9 +57,7 @@ export default function Settings() {
 
         {/* Voice Selection */}
         <div className="mb-6">
-          <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">
-            Voice Character
-          </label>
+          <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">Voice Character</label>
           <div className="flex sm:flex-col md:flex-row flex-col gap-3">
             {["Male", "Female"].map((voice) => (
               <motion.button
@@ -94,9 +82,7 @@ export default function Settings() {
 
         {/* Language Dropdown */}
         <div className="mb-6">
-          <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">
-            Language
-          </label>
+          <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">Language</label>
           <motion.select
             whileFocus={{ scale: 1.02 }}
             title="Language Selection"
@@ -113,9 +99,7 @@ export default function Settings() {
 
         {/* Pause Timer */}
         <div className="mb-8">
-          <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">
-            Time Stopper (seconds)
-          </label>
+          <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">Time Stopper (seconds)</label>
           <motion.input
             whileFocus={{ scale: 1.02 }}
             type="number"

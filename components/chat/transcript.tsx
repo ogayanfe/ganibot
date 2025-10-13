@@ -15,21 +15,25 @@ export default function Transcript({ loading }: IProps) {
   const typingSpeed = 35; // Adjust for faster/slower typing (ms per character)
 
   // Typing effect
+  // useEffect(() => {
+  //   if (!transcripts || transcripts.length === 0) {
+  //     setDisplayedText("");
+  //     return;
+  //   }
+
+  //   let index = 0;
+  //   setDisplayedText("");
+  //   const interval = setInterval(() => {
+  //     setDisplayedText((prev) => prev + transcripts.charAt(index));
+  //     index++;
+  //     if (index >= transcripts.length) clearInterval(interval);
+  //   }, typingSpeed);
+
+  //   return () => clearInterval(interval);
+  // }, [transcripts]);
+
   useEffect(() => {
-    if (!transcripts || transcripts.length === 0) {
-      setDisplayedText("");
-      return;
-    }
-
-    let index = 0;
-    setDisplayedText("");
-    const interval = setInterval(() => {
-      setDisplayedText((prev) => prev + transcripts.charAt(index));
-      index++;
-      if (index >= transcripts.length) clearInterval(interval);
-    }, typingSpeed);
-
-    return () => clearInterval(interval);
+    setDisplayedText(transcripts);
   }, [transcripts]);
 
   return (

@@ -15,7 +15,7 @@ import { LuSpeech } from "react-icons/lu";
 import cn from "@/utils/cn";
 import { Part } from "@google/genai";
 import { HistoryItem } from "@/actions/generate-audio";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, number } from "framer-motion";
 
 function createHistoryItem(
   role: "user" | "model",
@@ -29,6 +29,28 @@ function createHistoryItem(
   if (base64Audio)
     parts.push({ inlineData: { mimeType: "audio/mp3", data: base64Audio } });
   return { role, parts };
+}
+
+async function playHausaAudio(text: string, voice: "Male" | "Female") {
+  console.log("called");
+  try {
+    const res = await fetch("/api/hausa-audio", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, voice: "Male" }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to get Hausa audio");
+    }
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+
+    return new Audio(url);
+  } catch (error) {
+    console.error("Failed to get Hausa audio");
+  }
 }
 
 export default function NewChat() {
@@ -48,6 +70,9 @@ export default function NewChat() {
   const { mutateAsync, isPending } = useAIResponseMutation();
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
 
+  // we can use this state to detect whether the user as pressed the stop response button.
+  // Useful for determining if we should play audio
+
   async function generateAIResponse(chunks: Blob[]) {
     try {
       const base64Audio = await blobToBase64(new Blob(chunks, { type: "audio/mp3" }));
@@ -55,7 +80,6 @@ export default function NewChat() {
       const response = await mutateAsync({
         base64Audio,
         base64Video,
-        language,
         voice: selectedVoice,
         history: chatHistory,
       });
@@ -65,13 +89,14 @@ export default function NewChat() {
       setChatHistory([...chatHistory, userQuery, aiResponse]);
 
       setTranscripts(response.transcript ?? "");
-      if (response.language !== "Hausa") return;
+      if (response.language !== "Hausa" || !response.transcript) return;
 
-      if (!response.audioBase64) {
+      const audio = await playHausaAudio(response.transcript, selectedVoice);
+      if (!audio) {
+        alert("Couldn not retrieve audi");
         if (!recording && audioOn) startRecording();
         return;
       }
-      const audio = new Audio(`data:audio/wav;base64,${response.audioBase64}`);
       audio.addEventListener("ended", () => {
         if (!recording && audioOn) startRecording();
       });
