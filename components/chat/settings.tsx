@@ -41,7 +41,7 @@ export default function Settings() {
         initial="hidden"
         animate="visible"
         exit="exit"
-        className="fixed top-20 right-0 sm:right-4 z-50 sm:w-[340px] w-full sm:h-auto h-screen 
+        className="fixed top-20 right-0 sm:right-4 z-120 sm:w-[340px] w-full sm:h-auto h-screen 
           sm:rounded-2xl sm:shadow-lg sm:border border-gray-200 dark:border-gray-800 
           bg-white dark:bg-[#0b0f19] flex flex-col sm:p-6 p-8
           backdrop-blur-md transition-all duration-300"
