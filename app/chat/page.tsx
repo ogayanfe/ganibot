@@ -93,7 +93,7 @@ export default function NewChat() {
 
       const audio = await playHausaAudio(response.transcript, selectedVoice);
       if (!audio) {
-        alert("Couldn not retrieve audi");
+        alert("Couldn not retrieve audio");
         if (!recording && audioOn) startRecording();
         return;
       }
