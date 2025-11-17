@@ -28,11 +28,7 @@ const TypingText = ({ text }: { text: string }) => {
       className="text-gray-800 dark:text-gray-100 font-medium text-base md:text-lg text-center mt-3"
     >
       {displayedText}
-      <motion.span
-        animate={{ opacity: [0, 1, 0] }}
-        transition={{ duration: 0.9, repeat: Infinity }}
-        className="ml-1"
-      >
+      <motion.span animate={{ opacity: [0, 1, 0] }} transition={{ duration: 0.9, repeat: Infinity }} className="ml-1">
         |
       </motion.span>
     </motion.p>
@@ -134,15 +130,8 @@ da ke kawo canji ta hanyar fasaha.
             transition={{ delay: 0.2, duration: 0.6 }}
             className="flex justify-center items-center mb-8"
           >
-            <HeaderButton
-              title=""
-              icon={<FaBackward size={20} />}
-              href="/"
-              className="bg-blue-500 hover:bg-blue-600 transition"
-            />
-            <h1 className="font-semibold text-lg md:text-2xl text-center flex-1">
-              {content[language].title}
-            </h1>
+            <HeaderButton title="" icon={<FaBackward size={20} />} href="/" className="bg-blue-500 hover:bg-blue-600 transition" />
+            <h1 className="font-semibold text-lg md:text-2xl text-center flex-1">{content[language].title}</h1>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
@@ -183,17 +172,11 @@ da ke kawo canji ta hanyar fasaha.
           </motion.div>
 
           {/* Ayomide About */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.8 }}>
             <h2 className="text-lg md:text-xl font-semibold mb-2 text-blue-600 dark:text-blue-400">
-              {language === "en" ? "About Me" : "Game da Ni"}
+              {language === "en" ? "About Ayomide" : "Game da Ayomide"}
             </h2>
-            <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-sm md:text-lg whitespace-pre-line">
-              {content[language].ayomide}
-            </p>
+            <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-sm md:text-lg whitespace-pre-line">{content[language].ayomide}</p>
           </motion.div>
 
           {/* Ayanfe Section */}
@@ -204,7 +187,7 @@ da ke kawo canji ta hanyar fasaha.
             className="flex flex-col md:flex-row items-center gap-6 mt-10 mb-8"
           >
             <motion.img
-              src="/ayomide.jpg"
+              src="/ayanfe.jpeg"
               alt="Odule Ayanfeoluwa"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -223,17 +206,11 @@ da ke kawo canji ta hanyar fasaha.
           </motion.div>
 
           {/* Ayanfe About */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }}>
             <h2 className="text-lg md:text-xl font-semibold mb-2 text-indigo-600 dark:text-indigo-400">
               {language === "en" ? "About Ayanfeoluwa" : "Game da Ayanfeoluwa"}
             </h2>
-            <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-sm md:text-lg whitespace-pre-line">
-              {content[language].ayanfe}
-            </p>
+            <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-sm md:text-lg whitespace-pre-line">{content[language].ayanfe}</p>
           </motion.div>
 
           {/* Project Description */}
