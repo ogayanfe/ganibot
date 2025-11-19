@@ -107,17 +107,13 @@ export default function NewChat() {
   }, [audioOn]);
 
   return (
-    <div
-      className="relative h-screen w-screen text-white flex flex-col font-sans"
-    >
+    <div className="relative h-screen w-screen text-white flex flex-col font-sans">
       {/* Header */}
       <ChatHeader />
 
       {/* Speech Indicator */}
       <ComponentVisiblity show={!!(audioElement && !audioElement.paused)}>
-        <div
-          className="fixed bottom-32 left-6 z-20 max-md:left-1/2 max-md:-translate-x-1/2"
-        >
+        <div className="fixed bottom-32 left-6 z-20 max-md:left-1/2 max-md:-translate-x-1/2">
           <LuSpeech className="animate-pulse text-gray-900 dark:text-white" size={35} />
         </div>
       </ComponentVisiblity>
@@ -125,32 +121,28 @@ export default function NewChat() {
       {/* Main Content */}
       <main className="flex flex-col lg:flex-row flex-grow items-center justify-center gap-10 px-6 relative overflow-hidden">
         {/* 3D Scene */}
-        <div
-          className={cn(
-            "w-[400px] max-md:h-[200px] max-md:w-[90%] flex justify-center items-center",
-            videoOn && "fixed sm:right-0 bottom-40 md:bottom-0 z-10"
-          )}
-        >
+        <div className={cn("w-[800px] flex justify-center items-center", videoOn && "fixed -right-[250px] bottom-3 z-10")}>
           <SplineChart scene="/scene.splinecode" className={cn("max-md:scale-[.55] scale-[.68] z-10", videoOn && "!scale-[.3]")} />
         </div>
 
         {/* Transcript — centered above footer on mobile */}
-          {captionOn && (
-            <div
-              key="transcript"
-              className="absolute bottom-[10rem] left-1/2 -translate-x-1/2 max-md:w-[90%] text-center z-30"
-            >
-              <Transcript loading={isPending} />
-            </div>
-          )}
+        {captionOn && (
+          <div
+            key="transcript"
+            className={cn(
+              "absolute bottom-[10rem] max-w[80%] left-1/2 -translate-x-1/2 w-[700px] text-center z-30",
+              videoOn && "sm:left-[calc(100vw-300px)]"
+            )}
+          >
+            <Transcript loading={isPending} />
+          </div>
+        )}
         {/* Video Component */}
-       {videoOn && <Video />}
+        {videoOn && <Video />}
       </main>
 
       {/* Footer — sticky and responsive */}
-      <div
-        className="sticky bottom-0 left-0 right-0 z-40 backdrop-blur-lg bg-black/40"
-      >
+      <div className="sticky bottom-0 left-0 right-0 z-40 backdrop-blur-lg bg-black/40">
         <ChatFooter
           recording={recording}
           loadingAIResponse={isPending}
