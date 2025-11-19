@@ -24,7 +24,7 @@ function createHistoryItem(role: "user" | "model", text: string, base64Audio?: s
   return { role, parts };
 }
 
-async function playHausaAudio(text: string, voice: "Male" | "Female") {
+async function getHausaAudio(text: string, voice: "Male" | "Female") {
   console.log("called");
   try {
     const res = await fetch("/api/hausa-audio", {
@@ -57,7 +57,9 @@ export default function NewChat() {
   // Useful for determining if we should play audio
 
   async function generateAIResponse(chunks: Blob[]) {
+    let transcripts = "";
     try {
+      transcripts = "";
       const base64Audio = await blobToBase64(new Blob(chunks, { type: "audio/mp3" }));
       const base64Video = await blobToBase64(new Blob(recordedVideoChunks, { type: "video/webm" }));
       const response = await mutateAsync({
@@ -71,10 +73,10 @@ export default function NewChat() {
       const aiResponse = createHistoryItem("model", response.transcript ?? "");
       setChatHistory([...chatHistory, userQuery, aiResponse]);
 
-      setTranscripts(response.transcript ?? "");
       if (response.language !== "Hausa" || !response.transcript) return;
 
-      const audio = await playHausaAudio(response.transcript, selectedVoice);
+      const audio = await getHausaAudio(response.transcript, selectedVoice);
+      transcripts = response.transcript ?? "";
       if (!audio) {
         alert("Couldn not retrieve audio");
         if (!recording && audioOn) startRecording();
@@ -90,6 +92,7 @@ export default function NewChat() {
       console.error("AI response error:", error);
       alert("Error getting response");
     }
+    setTranscripts(transcripts);
   }
 
   useEffect(() => {
