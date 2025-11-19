@@ -88,7 +88,7 @@ export default function ChatHeader() {
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", stiffness: 150, damping: 15 }}
             >
-              <Settings />
+              <Settings onClose={() => setIsSettingOpen(false)} />
             </motion.div>
           </motion.div>
         )}

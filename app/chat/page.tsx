@@ -108,7 +108,7 @@ export default function NewChat() {
 
   return (
     <div
-      className="relative h-screen w-screen text-white flex flex-col font-sans transition-all overflow-hidden"
+      className="relative h-screen w-screen text-white flex flex-col font-sans"
     >
       {/* Header */}
       <ChatHeader />

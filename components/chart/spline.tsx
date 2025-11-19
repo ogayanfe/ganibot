@@ -21,9 +21,6 @@ export default function SplineChart({ scene, className }: SplineChartProps) {
     >
       {/* Subtle floating animation for the Spline scene */}
       <motion.div
-        animate={{
-          y: [0, -8, 0],
-        }}
         transition={{
           repeat: Infinity,
           duration: 6,

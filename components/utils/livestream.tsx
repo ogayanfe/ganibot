@@ -47,10 +47,9 @@ export default function LiveStream() {
   useEffect(() => {
     if (videoOn) {
       startRecording();
-      return;
+    } else {
+      stopRecording();
     }
-    stopRecording();
-    return () => stopRecording();
   }, [videoOn]);
 
   return (
