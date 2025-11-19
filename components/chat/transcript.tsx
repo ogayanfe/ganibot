@@ -38,18 +38,19 @@ export default function Transcript({ loading }: IProps) {
       <div
         key={videoOn ? "video-on" : "video-off"}
         className={cn(
-          "rounded-2xl p-2 flex flex-col justify-between max-w-xl flex-grow z-20 backdrop-blur-md border transition-colors duration-300",
+          "rounded-xl p-2 md:p-6 flex flex-col justify-between z-20 backdrop-blur-md border transition-colors duration-300",
           videoOn
-            ? "fixed bottom-40 bg-gray-800/80 text-white border-gray-700"
-            : "text-gray-900 dark:text-white bg-white/40 dark:bg-gray-900/40 border-gray-300/30 dark:border-gray-700/30"
+            ? "fixed bottom-28 md:bottom-32 left-4 right-4 md:left-auto md:right-auto md:w-96 bg-gray-800/90 text-white border-gray-700"
+            : "w-full max-w-2xl lg:max-w-3xl text-gray-900 dark:text-white bg-white/40 dark:bg-gray-900/40 border-gray-300/30 dark:border-gray-700/30"
         )}
       >
         <div
           key={displayedText}
+          className="overflow-y-auto max-h-48 md:max-h-64"
         >
           <p
             className={cn(
-              "text-lg md:text-2xl font-mono leading-relaxed whitespace-pre-line",
+              "text-sm md:text-lg lg:text-xl font-mono leading-relaxed whitespace-pre-wrap break-words",
               loading && "animate-pulse text-gray-400 dark:text-gray-500"
             )}
           >
@@ -59,7 +60,7 @@ export default function Transcript({ loading }: IProps) {
 
             {showCursor && (
               <span
-                className="inline-block w-[8px] h-4 bg-gray-800 dark:bg-white ml-1"
+                className="inline-block w-[4px] h-4 bg-gray-800 dark:bg-white ml-1"
               />
             )}
           </p>

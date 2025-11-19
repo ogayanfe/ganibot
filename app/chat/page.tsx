@@ -17,17 +17,10 @@ import { Part } from "@google/genai";
 import { HistoryItem } from "@/actions/generate-audio";
 import { motion, AnimatePresence, number } from "framer-motion";
 
-function createHistoryItem(
-  role: "user" | "model",
-  text: string,
-  base64Audio?: string,
-  base64Video?: string
-): HistoryItem {
+function createHistoryItem(role: "user" | "model", text: string, base64Audio?: string, base64Video?: string): HistoryItem {
   const parts: Part[] = [{ text }];
-  if (base64Video)
-    parts.push({ inlineData: { mimeType: "video/webm", data: base64Video } });
-  if (base64Audio)
-    parts.push({ inlineData: { mimeType: "audio/mp3", data: base64Audio } });
+  if (base64Video) parts.push({ inlineData: { mimeType: "video/webm", data: base64Video } });
+  if (base64Audio) parts.push({ inlineData: { mimeType: "audio/mp3", data: base64Audio } });
   return { role, parts };
 }
 
@@ -37,7 +30,7 @@ async function playHausaAudio(text: string, voice: "Male" | "Female") {
     const res = await fetch("/api/hausa-audio", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text, voice: "Male" }),
+      body: JSON.stringify({ text, voice: voice }),
     });
 
     if (!res.ok) {
@@ -54,17 +47,7 @@ async function playHausaAudio(text: string, voice: "Male" | "Female") {
 }
 
 export default function NewChat() {
-  const {
-    captionOn,
-    audioOn,
-    videoOn,
-    setTranscripts,
-    recordedVideoChunks,
-    selectedVoice,
-    language,
-    chatHistory,
-    setChatHistory,
-  } = useAIContext();
+  const { captionOn, audioOn, videoOn, setTranscripts, recordedVideoChunks, selectedVoice, language, chatHistory, setChatHistory } = useAIContext();
 
   const { startRecording, stopRecording, recording, getChuncks } = useRecorder();
   const { mutateAsync, isPending } = useAIResponseMutation();
@@ -148,14 +131,10 @@ export default function NewChat() {
             videoOn && "fixed sm:right-0 bottom-40 md:bottom-0 z-10"
           )}
         >
-          <SplineChart
-            scene="/scene.splinecode"
-            className={cn(
-              "max-md:scale-[.55] scale-[.58] z-10",
-              videoOn && "!scale-[.3]"
-            )}
-          />
+          <SplineChart scene="/scene.splinecode" className={cn("max-md:scale-[.55] scale-[.68] z-10", videoOn && "!scale-[.3]")} />
         </div>
+
+        {/* Transcript — centered above footer on mobile */}
           {captionOn && (
             <div
               key="transcript"

@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: 'Gani Voice Assistant',
   description: 'A bilingual AI-powered voice assistant',
   manifest: '/manifest.json',
