@@ -130,7 +130,7 @@ export default function NewChat() {
           <div
             key="transcript"
             className={cn(
-              "absolute bottom-[10rem] max-w[80%] left-1/2 -translate-x-1/2 w-[700px] text-center z-30",
+              "absolute bottom-[10rem] max-w-[92%] left-1/2 -translate-x-1/2 w-[700px] text-center z-30",
               videoOn && "sm:left-[calc(100vw-300px)]"
             )}
           >
